@@ -13,7 +13,7 @@ export default function PageHeader({ eyebrow, title, intro, meta }) {
           <span className="inline-block h-px w-8 bg-white/30" />
           {eyebrow}
         </div>
-        <SplitText as="h1" className="mega max-w-[15ch] text-balance text-white" stagger={0.05}>
+        <SplitText as="h1" className="display max-w-[18ch] text-balance text-white" stagger={0.05}>
           {title}
         </SplitText>
         {intro && (

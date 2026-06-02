@@ -21,7 +21,7 @@ export default function CTA() {
 
       <Container className="py-28 text-center md:py-40">
         <div className="eyebrow mb-8 text-ink-muted">Ready when you are</div>
-        <SplitText as="h2" className="mega mx-auto max-w-[15ch] text-balance text-ink">
+        <SplitText as="h2" className="display mx-auto max-w-[18ch] text-balance text-ink">
           Let's build something that grows.
         </SplitText>
         <div className="mt-14 flex flex-wrap items-center justify-center gap-4">

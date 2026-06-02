@@ -64,7 +64,7 @@ export default function Process() {
 
             <div className="relative">
               <div className="eyebrow mb-6 text-blue">Process — {process[active].step}</div>
-              <div className="relative min-h-[34vh]">
+              <div className="relative min-h-[38vh] md:min-h-[32vh]">
                 {process.map((s, i) => (
                   <div
                     key={s.step}
@@ -73,7 +73,7 @@ export default function Process() {
                     }`}
                   >
                     <h3 className="display text-ink">{s.title}</h3>
-                    <p className="mt-8 max-w-[40ch] text-xl leading-relaxed text-ink-muted md:text-2xl">
+                    <p className="mt-8 max-w-[40ch] text-xl leading-relaxed text-ink-muted md:mt-10 md:text-2xl">
                       {s.body}
                     </p>
                   </div>

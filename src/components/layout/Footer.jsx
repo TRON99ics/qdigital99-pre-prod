@@ -10,7 +10,7 @@ export default function Footer() {
       <Container className="py-24 md:py-32">
         <div className="grid gap-16 lg:grid-cols-[1.4fr_1fr]">
           <div>
-            <SplitText as="h2" className="mega text-white">
+            <SplitText as="h2" className="display text-white">
               Let's build.
             </SplitText>
             <p className="mt-8 max-w-[40ch] text-lg text-white/60">

@@ -76,12 +76,11 @@ export default function SplitText({
 
   return createElement(
     as,
-    { ref, className },
+    { ref, className: `split-safe ${className}`.trim() },
     words.map((word, i) => (
       <span
         key={i}
         className="line-mask"
-        style={{ display: 'inline-block', verticalAlign: 'top' }}
       >
         <span data-word style={{ display: 'inline-block', willChange: 'transform' }}>
           {word}

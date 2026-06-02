@@ -18,23 +18,23 @@ export default function Results() {
           className="[&_h2]:text-white [&_p]:text-white/55"
         />
 
-        <div className="mt-20 grid grid-cols-1 gap-px overflow-hidden border-y border-white/10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-20 grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
           {metrics.map((m, i) => (
             <Reveal
               key={m.label}
               delay={i * 0.08}
               y={30}
-              className="border-white/10 px-2 py-10 sm:odd:border-r lg:border-r lg:last:border-r-0"
+              className="min-w-0 bg-ink px-5 py-12 sm:px-6 md:py-14"
             >
-              <div className="mega text-[clamp(3rem,7vw,6rem)] font-semibold leading-none tracking-tight">
+              <div className="stat-value whitespace-nowrap">
                 <Counter value={m.value} prefix={m.prefix} suffix={m.suffix} />
               </div>
-              <div className="mt-5 text-sm text-white/50">{m.label}</div>
+              <div className="mt-5 text-sm leading-snug text-white/50">{m.label}</div>
             </Reveal>
           ))}
         </div>
 
-        <p className="mt-12 max-w-[44ch] text-white/40">
+        <p className="mt-12 max-w-[44ch] leading-relaxed text-white/40">
           Averages across active engagements. Every program launches with defined
           benchmarks and transparent reporting.
         </p>

@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import * as THREE from 'three'
 
-const MODEL_URL = '/models/moon_man_yo_oc_humanoid.glb'
-useGLTF.preload(MODEL_URL)
+import { ROBOT_MODEL_URL } from '../../lib/robotModel'
+
+useGLTF.preload(ROBOT_MODEL_URL)
 
 /**
  * The character. Walking clip on loop; feet on ground plane; casts shadows.
@@ -11,7 +12,7 @@ useGLTF.preload(MODEL_URL)
 export default function RobotModel({ onBounds, facing = 0 }) {
   const outer = useRef(null)
   const inner = useRef(null)
-  const { scene, animations } = useGLTF(MODEL_URL)
+  const { scene, animations } = useGLTF(ROBOT_MODEL_URL)
   const { actions, names } = useAnimations(animations, outer)
 
   useEffect(() => {

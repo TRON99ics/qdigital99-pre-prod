@@ -190,6 +190,62 @@
     }
   }
 
+  /* Entering loader — odometer + progress bar */
+  .odometer {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .odometer-digit {
+    display: inline-block;
+    height: 1em;
+    width: 0.62em;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+
+  .odometer-strip {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+  }
+
+  .odometer-cell {
+    display: flex;
+    height: 1em;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .entering-bar {
+    width: 100px;
+    height: 5px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .entering-bar-fill {
+    height: 100%;
+    width: 100%;
+    transform-origin: left center;
+    border-radius: inherit;
+    background: var(--color-blue);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .entering-loader-panel {
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .entering-loader-panel--exit {
+    transform: translate3d(0, -105%, 0);
+  }
+
   /* Nav pill — revealed after hero (scale from center in Navbar) */
   .nav-shell-bg {
     border: 1px solid rgba(255, 255, 255, 0.12);

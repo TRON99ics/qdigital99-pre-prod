@@ -1,6 +1,6 @@
 import { Suspense, useState, useCallback, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { ContactShadows, MeshReflectorMaterial, Loader } from '@react-three/drei'
+import { ContactShadows, MeshReflectorMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 import RobotModel from './RobotModel'
 import SceneDirector from './SceneDirector'
@@ -85,12 +85,6 @@ export default function HeroScene({ progressRef }) {
 
         <SceneDirector progressRef={progressRef} bounds={bounds} />
       </Canvas>
-      <Loader
-        containerStyles={{ background: SPACE }}
-        barStyles={{ background: '#1347ff', height: '2px' }}
-        dataStyles={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', letterSpacing: '0.18em' }}
-        dataInterpolation={(p) => `ENTERING ${p.toFixed(0)}%`}
-      />
     </>
   )
 }

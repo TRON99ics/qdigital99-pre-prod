@@ -50,6 +50,7 @@ export default function HeroScene({ progressRef }) {
         <fogExp2 attach="fog" args={[SPACE, 0.00012]} />
 
         <Suspense fallback={null}>
+          {bounds && <Starfield progressRef={progressRef} bounds={bounds} />}
           <RobotModel onBounds={onBounds} facing={0} />
           {bounds && (
             <>
@@ -62,7 +63,6 @@ export default function HeroScene({ progressRef }) {
                 opacity={0.65}
                 far={bounds.size.y * 0.6}
               />
-              <Starfield progressRef={progressRef} bounds={bounds} />
             </>
           )}
         </Suspense>

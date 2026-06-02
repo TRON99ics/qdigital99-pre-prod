@@ -16,7 +16,6 @@ export default function SceneDirector({ progressRef, bounds }) {
   const keyLight = useRef(null)
   const rimLight = useRef(null)
   const fillLight = useRef(null)
-  const aquaLight = useRef(null)
   const ambient = useRef(null)
   const inited = useRef(false)
 
@@ -29,7 +28,7 @@ export default function SceneDirector({ progressRef, bounds }) {
     inited.current = false
   }, [bounds, camera])
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!bounds) return
     const h = bounds.size.y
     const p = progressRef.current
@@ -52,17 +51,12 @@ export default function SceneDirector({ progressRef, bounds }) {
     camera.lookAt(curLook.current)
 
     const expose = THREE.MathUtils.smoothstep(p, 0.08, 0.62)
-    const dive = THREE.MathUtils.smoothstep(p, 0.82, 1.0)
+    const dive = THREE.MathUtils.smoothstep(p, 0.78, 0.94)
     gl.toneMappingExposure = 0.85 + expose * 0.7 - dive * 0.82
     if (ambient.current) ambient.current.intensity = 0.25 + expose * 0.55 - dive * 0.35
     if (keyLight.current) keyLight.current.intensity = 1.0 + expose * 2.2 - dive * 2.4
     if (rimLight.current) rimLight.current.intensity = 2.2 + expose * 3.2 - dive * 2.8
     if (fillLight.current) fillLight.current.intensity = 0.6 + expose * 1.2 - dive * 1.1
-    if (aquaLight.current) {
-      const pulse = 0.85 + Math.sin(state.clock.elapsedTime * 0.9) * 0.15
-      aquaLight.current.intensity = (0.35 + expose * 0.85) * pulse * (1 - dive * 0.9)
-    }
-
     if (scene.fog) {
       scene.fog.density = ((0.85 - expose * 0.55) + dive * 2.4) / h
     }
@@ -98,13 +92,6 @@ export default function SceneDirector({ progressRef, bounds }) {
       />
       <directionalLight ref={fillLight} position={[0, top * 0.5, h * 1.2]} intensity={0.6} color="#cfe0ff" />
       <pointLight position={[0, top + h * 0.2, h * 0.4]} intensity={h * 0.4} distance={h * 6} color="#cfe0ff" />
-      <pointLight
-        ref={aquaLight}
-        position={[0, bounds.min.y + h * 0.15, h * 0.35]}
-        intensity={0.5}
-        distance={h * 5}
-        color="#2ee8c8"
-      />
     </>
   )
 }

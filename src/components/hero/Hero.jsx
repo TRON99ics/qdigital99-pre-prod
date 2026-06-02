@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '../../lib/gsap'
 import HeroScene from './HeroScene'
-import HeroAqua from './HeroAqua'
 import { site } from '../../data/site'
 
 const smoothstep = (e0, e1, x) => {
@@ -15,15 +14,15 @@ export default function Hero() {
   const heroText = useRef(null)
   const cue = useRef(null)
   const vignette = useRef(null)
-  const chroma = useRef(null)
   const singularity = useRef(null)
-  const aqua = useRef(null)
+  const enterWorld = useRef(null)
+  const enterCue = useRef(null)
 
   useLayoutEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) {
       progressRef.current = 0.66
-      gsap.set([cue.current, vignette.current, chroma.current, singularity.current, aqua.current], {
+      gsap.set([cue.current, vignette.current, singularity.current, enterWorld.current, enterCue.current], {
         autoAlpha: 0,
       })
       return
@@ -33,7 +32,7 @@ export default function Hero() {
       const st = ScrollTrigger.create({
         trigger: trigger.current,
         start: 'top top',
-        end: '+=600%',
+        end: '+=520%',
         pin: true,
         scrub: 1,
         anticipatePin: 1,
@@ -45,18 +44,22 @@ export default function Hero() {
             yPercent: -p * 40,
           })
           gsap.set(cue.current, { autoAlpha: 1 - smoothstep(0.02, 0.1, p) })
-          const diveP = smoothstep(0.82, 1, p)
+          const diveP = smoothstep(0.78, 0.9, p)
           gsap.set(vignette.current, {
             opacity: smoothstep(0.5, 0.85, p) * (1 - diveP * 0.35) + diveP * 0.85,
           })
-          gsap.set(chroma.current, { opacity: smoothstep(0.78, 0.92, p) * (1 - diveP * 0.5) })
           gsap.set(singularity.current, {
             opacity: diveP,
             scale: 0.55 + diveP * 2.85,
           })
-          gsap.set(aqua.current, {
-            opacity: (1 - diveP * 0.95) * (0.35 + smoothstep(0.08, 0.45, p) * 0.65),
+          // Text reveals after the void — last ~8% of hero scroll releases to next section
+          const enterP = smoothstep(0.91, 0.99, p)
+          gsap.set(enterWorld.current, {
+            autoAlpha: enterP,
+            scale: 0.92 + enterP * 0.08,
+            y: (1 - enterP) * 24,
           })
+          gsap.set(enterCue.current, { autoAlpha: enterP * smoothstep(0.5, 1, enterP) })
         },
       })
       return () => st.kill()
@@ -69,10 +72,6 @@ export default function Hero() {
     <section ref={trigger} className="relative h-screen w-full overflow-hidden bg-[#05060a]">
       <div className="absolute inset-0">
         <HeroScene progressRef={progressRef} />
-      </div>
-
-      <div ref={aqua} className="opacity-0">
-        <HeroAqua />
       </div>
 
       {/* SHOT 01 — arrival copy */}
@@ -106,16 +105,6 @@ export default function Hero() {
         }}
       />
 
-      {/* Chromatic aberration approximation */}
-      <div
-        ref={chroma}
-        className="pointer-events-none absolute inset-0 z-30 opacity-0 mix-blend-screen"
-        style={{
-          background:
-            'radial-gradient(circle at 47% 48%, rgba(255,0,80,0.16), transparent 42%), radial-gradient(circle at 53% 52%, rgba(0,160,255,0.16), transparent 42%)',
-        }}
-      />
-
       {/* SHOT 06 — black hole dive: collapsing singularity */}
       <div
         ref={singularity}
@@ -126,6 +115,31 @@ export default function Hero() {
           className="hero-singularity h-[min(200vmax,2800px)] w-[min(200vmax,2800px)] rounded-full"
           aria-hidden
         />
+      </div>
+
+      {/* Black hole dive — invitation copy */}
+      <div
+        ref={enterWorld}
+        className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center px-5 opacity-0 sm:px-8"
+        style={{ transformOrigin: '50% 48%' }}
+      >
+        <p className="enter-world-text max-w-[22ch] text-center text-pretty text-white sm:max-w-[28ch]">
+          <span className="enter-world-quote" aria-hidden>
+            &ldquo;
+          </span>
+          You are about to enter my world
+          <span className="enter-world-quote" aria-hidden>
+            &rdquo;
+          </span>
+        </p>
+      </div>
+
+      <div
+        ref={enterCue}
+        className="pointer-events-none absolute inset-x-0 bottom-8 z-50 flex flex-col items-center gap-2 text-white/45 opacity-0"
+      >
+        <span className="eyebrow">Continue scrolling</span>
+        <span className="h-8 w-px bg-white/35" />
       </div>
     </section>
   )

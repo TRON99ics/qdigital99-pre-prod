@@ -10,8 +10,8 @@ const vertexShader = /* glsl */ `
   void main() {
     vColor = aColor;
     vec4 mv = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = aSize * uScale * (720.0 / max(-mv.z, 80.0));
-    gl_PointSize = clamp(gl_PointSize, 2.5, 96.0);
+    gl_PointSize = aSize * uScale * (680.0 / max(-mv.z, 80.0));
+    gl_PointSize = clamp(gl_PointSize, 2.0, 52.0);
     gl_Position = projectionMatrix * mv;
   }
 `
@@ -22,11 +22,11 @@ const fragmentShader = /* glsl */ `
   void main() {
     vec2 uv = gl_PointCoord - 0.5;
     float d = length(uv);
-    float core = smoothstep(0.22, 0.0, d);
-    float halo = smoothstep(0.5, 0.12, d);
-    float alpha = (core * 0.95 + halo * 0.45) * uOpacity;
-    if (alpha < 0.03) discard;
-    gl_FragColor = vec4(vColor * (0.85 + core * 0.35), alpha);
+    float core = smoothstep(0.2, 0.0, d);
+    float halo = smoothstep(0.48, 0.14, d);
+    float alpha = (core * 0.7 + halo * 0.22) * uOpacity;
+    if (alpha < 0.02) discard;
+    gl_FragColor = vec4(vColor, alpha);
   }
 `
 
@@ -47,21 +47,20 @@ function fillStarSphere(count, rMin, rMax, cx, cy, cz) {
     positions[i * 3 + 1] = cy + r * Math.sin(phi) * Math.sin(theta)
     positions[i * 3 + 2] = cz + r * Math.cos(phi)
 
-    const tint = 0.78 + Math.random() * 0.22
-    color.setRGB(0.78 * tint, 0.86 * tint, 1.0 * tint)
+    const tint = 0.75 + Math.random() * 0.22
+    color.setRGB(0.78 * tint, 0.85 * tint, 1.0 * tint)
     colors[i * 3] = color.r
     colors[i * 3 + 1] = color.g
     colors[i * 3 + 2] = color.b
 
-    // Wider size range — fewer tiny glitter points
-    sizes[i] = 1.4 + Math.random() * 2.8
+    sizes[i] = 1.0 + Math.random() * 1.6
   }
 
   return { positions, colors, sizes }
 }
 
 /**
- * Large soft stars for deep space — scale-aware, no skybox GLB required.
+ * Visible but soft starfield — additive glow, tuned for the large hero scale.
  */
 export default function Starfield({ progressRef, bounds }) {
   const points = useRef(null)
@@ -73,9 +72,9 @@ export default function Starfield({ progressRef, bounds }) {
   const cz = bounds.center.z
 
   const geometry = useMemo(() => {
-    const near = fillStarSphere(2200, h * 0.6, h * 1.5, cx, cy, cz)
-    const far = fillStarSphere(1200, h * 1.5, h * 2.8, cx, cy, cz)
-    const count = 3400
+    const near = fillStarSphere(1400, h * 0.65, h * 1.45, cx, cy, cz)
+    const far = fillStarSphere(800, h * 1.5, h * 2.75, cx, cy, cz)
+    const count = 2200
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
     const sizes = new Float32Array(count)
@@ -97,13 +96,14 @@ export default function Starfield({ progressRef, bounds }) {
     () =>
       new THREE.ShaderMaterial({
         uniforms: {
-          uScale: { value: 2.2 },
-          uOpacity: { value: 0.85 },
+          uScale: { value: 1.8 },
+          uOpacity: { value: 0.75 },
         },
         vertexShader,
         fragmentShader,
         transparent: true,
         depthWrite: false,
+        depthTest: true,
         fog: false,
         blending: THREE.AdditiveBlending,
       }),
@@ -113,19 +113,17 @@ export default function Starfield({ progressRef, bounds }) {
   useFrame((state, dt) => {
     if (!points.current) return
     const p = progressRef.current
-    const target = THREE.MathUtils.lerp(
-      0.65,
-      1.0,
-      THREE.MathUtils.smoothstep(p, 0.05, 0.5),
-    )
+    const diveFade = 1 - THREE.MathUtils.smoothstep(p, 0.76, 0.92)
+    const target =
+      THREE.MathUtils.lerp(0.62, 0.88, THREE.MathUtils.smoothstep(p, 0.04, 0.42)) * diveFade
     material.uniforms.uOpacity.value = THREE.MathUtils.damp(
       material.uniforms.uOpacity.value,
       target,
       4,
       Math.min(dt, 0.05),
     )
-    material.uniforms.uScale.value = Math.min(viewport.dpr, 2) * (h / 490) * 2.35
-    points.current.rotation.y += dt * 0.012
+    material.uniforms.uScale.value = Math.min(viewport.dpr, 2) * (h / 490) * 1.85
+    points.current.rotation.y += dt * 0.006
   })
 
   return (
@@ -133,7 +131,7 @@ export default function Starfield({ progressRef, bounds }) {
       ref={points}
       geometry={geometry}
       material={material}
-      renderOrder={-1}
+      renderOrder={-2}
       frustumCulled={false}
     />
   )

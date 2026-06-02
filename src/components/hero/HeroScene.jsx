@@ -66,7 +66,7 @@ export default function HeroScene({ progressRef }) {
 
         <Suspense fallback={null}>
           {bounds && <Starfield progressRef={progressRef} bounds={bounds} />}
-          <RobotModel onBounds={onBounds} facing={0} />
+          <RobotModel onBounds={onBounds} facing={Math.PI} />
           {bounds && (
             <>
               <Floor bounds={bounds} />

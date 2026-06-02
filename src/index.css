@@ -1,0 +1,122 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+/* ----------------------------------------------------------------------------
+   QDigital99 — Design Tokens (Tailwind v4 theme)
+   Premium · Editorial · Minimal. Whitespace dominates. Accent is intentional.
+---------------------------------------------------------------------------- */
+@theme {
+  /* Color system */
+  --color-ink: #000000;
+  --color-ink-soft: #151515;
+  --color-ink-muted: #5a5a5f;
+  --color-surface: #f0f0f0;
+  --color-surface-2: #ededed;
+  --color-line: #dcdcdc;
+  --color-paper: #ffffff;
+  --color-blue: #1347ff;
+  --color-blue-soft: #335cff;
+
+  /* Typography */
+  --font-sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Fluid display scale */
+  --text-display: clamp(3rem, 9vw, 7.5rem);
+  --text-display--line-height: 0.95;
+  --text-mega: clamp(3.5rem, 14vw, 12rem);
+  --text-mega--line-height: 0.9;
+
+  /* Easing + timing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+
+  /* Layout */
+  --radius-xl: 1.5rem;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: auto; /* Lenis handles smoothing */
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv01', 'cv11';
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-blue);
+    color: #fff;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+  img { display: block; max-width: 100%; }
+  canvas { display: block; }
+
+  /* Hide scrollbar but keep scroll */
+  ::-webkit-scrollbar { width: 0; height: 0; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .display {
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    letter-spacing: -0.04em;
+    font-weight: 600;
+  }
+
+  .mega {
+    font-size: var(--text-mega);
+    line-height: var(--text-mega--line-height);
+    letter-spacing: -0.045em;
+    font-weight: 600;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Reveal mask used by SplitText / Reveal primitives */
+  .line-mask { overflow: hidden; display: block; }
+
+  .no-lenis { overscroll-behavior: contain; }
+}
+
+/* Lenis smooth scroll baseline */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

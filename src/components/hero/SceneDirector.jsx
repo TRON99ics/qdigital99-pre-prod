@@ -7,8 +7,7 @@ const damp = (current, target, lambda, dt) =>
   THREE.MathUtils.damp(current, target, lambda, dt)
 
 /**
- * Drives the camera, lighting, fog and exposure from scroll progress.
- * Camera positions are framed against the model bounds — the model is never scaled.
+ * Camera, lighting, and scroll-driven fog for the interstellar hero.
  */
 export default function SceneDirector({ progressRef, bounds }) {
   const { camera, gl, scene } = useThree()
@@ -16,6 +15,7 @@ export default function SceneDirector({ progressRef, bounds }) {
   const curLook = useRef(new THREE.Vector3())
   const keyLight = useRef(null)
   const rimLight = useRef(null)
+  const fillLight = useRef(null)
   const ambient = useRef(null)
   const inited = useRef(false)
 
@@ -50,15 +50,16 @@ export default function SceneDirector({ progressRef, bounds }) {
     }
     camera.lookAt(curLook.current)
 
-    const expose = THREE.MathUtils.smoothstep(p, 0.1, 0.7)
+    const expose = THREE.MathUtils.smoothstep(p, 0.08, 0.62)
     const dive = THREE.MathUtils.smoothstep(p, 0.82, 1.0)
-    gl.toneMappingExposure = 0.55 + expose * 0.85
-    if (ambient.current) ambient.current.intensity = 0.06 + expose * 0.5
-    if (keyLight.current) keyLight.current.intensity = 0.4 + expose * 2.4
-    if (rimLight.current) rimLight.current.intensity = 1.2 + expose * 3.5
+    gl.toneMappingExposure = 0.85 + expose * 0.7
+    if (ambient.current) ambient.current.intensity = 0.25 + expose * 0.55
+    if (keyLight.current) keyLight.current.intensity = 1.0 + expose * 2.2
+    if (rimLight.current) rimLight.current.intensity = 2.2 + expose * 3.2
+    if (fillLight.current) fillLight.current.intensity = 0.6 + expose * 1.2
 
     if (scene.fog) {
-      scene.fog.density = 0.00004 + dive * 0.00008
+      scene.fog.density = ((1.5 - expose * 1.05) + dive * 2.4) / h
     }
   })
 
@@ -68,11 +69,12 @@ export default function SceneDirector({ progressRef, bounds }) {
 
   return (
     <>
-      <ambientLight ref={ambient} intensity={0.06} />
+      <hemisphereLight args={['#8a9ec8', '#0a0c14', 0.35]} />
+      <ambientLight ref={ambient} intensity={0.25} />
       <directionalLight
         ref={keyLight}
         position={[h * 0.4, top + h * 0.3, h * 0.9]}
-        intensity={0.4}
+        intensity={1.0}
         color="#ffffff"
         castShadow
         shadow-mapSize={[2048, 2048]}
@@ -85,11 +87,12 @@ export default function SceneDirector({ progressRef, bounds }) {
       </directionalLight>
       <directionalLight
         ref={rimLight}
-        position={[-h * 0.6, top + h * 0.1, -h * 0.8]}
-        intensity={1.2}
+        position={[-h * 0.7, top + h * 0.2, -h * 0.8]}
+        intensity={2.2}
         color="#1347ff"
       />
-      <pointLight position={[0, top + h * 0.2, h * 0.4]} intensity={1.5} distance={h * 6} color="#cfe0ff" />
+      <directionalLight ref={fillLight} position={[0, top * 0.5, h * 1.2]} intensity={0.6} color="#cfe0ff" />
+      <pointLight position={[0, top + h * 0.2, h * 0.4]} intensity={h * 0.4} distance={h * 6} color="#cfe0ff" />
     </>
   )
 }

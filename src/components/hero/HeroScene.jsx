@@ -6,6 +6,8 @@ import RobotModel from './RobotModel'
 import SceneDirector from './SceneDirector'
 import Particles from './Particles'
 
+const SPACE = '#05060a'
+
 function Floor({ bounds }) {
   const h = bounds.size.y
   return (
@@ -41,10 +43,10 @@ export default function HeroScene({ progressRef }) {
         shadows
         dpr={[1, 2]}
         gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.9 }}
-        camera={{ fov: 40, near: 0.01, far: 4000, position: [0, 100, 260] }}
+        camera={{ fov: 40, near: 0.01, far: 8000, position: [0, 100, 260] }}
       >
-        <color attach="background" args={['#05060a']} />
-        <fogExp2 attach="fog" args={['#05060a', 0.0006]} />
+        <color attach="background" args={[SPACE]} />
+        <fogExp2 attach="fog" args={[SPACE, 0.0006]} />
 
         <Suspense fallback={null}>
           <RobotModel onBounds={onBounds} facing={0} />
@@ -66,7 +68,7 @@ export default function HeroScene({ progressRef }) {
         <SceneDirector progressRef={progressRef} bounds={bounds} />
       </Canvas>
       <Loader
-        containerStyles={{ background: '#05060a' }}
+        containerStyles={{ background: SPACE }}
         barStyles={{ background: '#1347ff', height: '2px' }}
         dataStyles={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', letterSpacing: '0.18em' }}
         dataInterpolation={(p) => `ENTERING ${p.toFixed(0)}%`}

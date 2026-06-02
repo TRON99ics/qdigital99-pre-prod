@@ -5,12 +5,17 @@ const FILTER_ID = 'chromatic-ripple'
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
 
 /**
- * Chromatic ripple — mouse velocity drives a wave that distorts everything below.
- * GPU-native: feTurbulence -> per-channel feDisplacementMap (R/G/B) recombined
- * with screen blend for the chromatic split. The faster the mouse, the stronger
- * the wave; it decays back to nothing (and the filter is removed) at rest.
+ * Chromatic ripple — only on aggressive mouse movement (reading stays clear).
+ * Below SPEED_MIN nothing happens; above SPEED_FULL the wave is strongest.
  * Default system cursor is untouched. Pointer-device only.
  */
+
+/** px/ms — normal hover/reading stays below this */
+const SPEED_MIN = 3.35
+/** px/ms — fast swipe reaches full strength */
+const SPEED_FULL = 3.8
+/** Filter only engages above this smoothed level */
+const LEVEL_ON = 0.1
 export default function ChromaticRipple({ children }) {
   const wrapRef = useRef(null)
   const turbRef = useRef(null)
@@ -39,7 +44,7 @@ export default function ChromaticRipple({ children }) {
     let energy = 0 // target, fed by mouse speed
     let level = 0 // smoothed, drives the filter
 
-    const MAX_SCALE = 34 // px of displacement at full energy (green channel)
+    const MAX_SCALE = 28 // px of displacement at full energy (green channel)
 
     const apply = () => {
       const t = performance.now() / 1000
@@ -59,10 +64,10 @@ export default function ChromaticRipple({ children }) {
       const dt = Math.min((now - last) / 1000, 0.05)
       last = now
 
-      energy *= Math.pow(0.06, dt) // fast decay of the target
-      level += (energy - level) * Math.min(1, dt * 12) // smooth follow
+      energy *= Math.pow(0.015, dt) // drop off quickly when movement slows
+      level += (energy - level) * Math.min(1, dt * 14)
 
-      if (level < 0.004 && energy < 0.004) {
+      if (level < LEVEL_ON && energy < LEVEL_ON) {
         level = 0
         wrap.style.filter = 'none'
         running = false
@@ -90,9 +95,12 @@ export default function ChromaticRipple({ children }) {
       ly = e.clientY
       lt = now
 
-      const target = clamp(speed * 0.32, 0, 1)
+      if (speed < SPEED_MIN) return
+
+      const t = clamp((speed - SPEED_MIN) / (SPEED_FULL - SPEED_MIN), 0, 1)
+      const target = t * t * t // steep curve — only aggressive sweeps matter
       if (target > energy) energy = target
-      if (energy > 0.01) ensureRunning()
+      if (energy > LEVEL_ON) ensureRunning()
     }
 
     window.addEventListener('mousemove', onMove, { passive: true })

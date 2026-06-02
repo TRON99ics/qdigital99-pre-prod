@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import Container from '../ui/Container'
 import Button from '../ui/Button'
 import SplitText from '../motion/SplitText'
-import { site, footerNav } from '../../data/site'
+import { site, footerNav, modelCredits } from '../../data/site'
 
 export default function Footer() {
   return (
@@ -50,20 +50,50 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-24 flex flex-col gap-6 border-t border-white/10 pt-8 text-sm text-white/40 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {site.markets.map((m) => (
-              <span key={m}>{m}</span>
-            ))}
-          </div>
-          <div className="flex gap-6">
-            {site.phones.map((p) => (
-              <span key={p.region}>
-                {p.region} {p.number}
+        <div className="mt-24 space-y-6 border-t border-white/10 pt-8">
+          <p className="text-xs leading-relaxed text-white/35">
+            {modelCredits.map((c, i) => (
+              <span key={c.url}>
+                {i > 0 ? ' ' : null}
+                <a
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-2 hover:text-white/55 hover:underline"
+                >
+                  &ldquo;{c.name}&rdquo;
+                </a>{' '}
+                by {c.author} is licensed under{' '}
+                <a
+                  href={c.licenseUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-2 hover:text-white/55 hover:underline"
+                >
+                  Creative Commons Attribution ({c.license})
+                </a>
+                .
               </span>
             ))}
+          </p>
+
+          <div className="flex flex-col gap-6 text-sm text-white/40 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              {site.markets.map((m) => (
+                <span key={m}>{m}</span>
+              ))}
+            </div>
+            <div className="flex gap-6">
+              {site.phones.map((p) => (
+                <span key={p.region}>
+                  {p.region} {p.number}
+                </span>
+              ))}
+            </div>
+            <div>
+              © {new Date().getFullYear()} {site.name}
+            </div>
           </div>
-          <div>© {new Date().getFullYear()} {site.name}</div>
         </div>
       </Container>
     </footer>

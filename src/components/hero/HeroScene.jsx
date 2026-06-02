@@ -4,7 +4,7 @@ import { ContactShadows, MeshReflectorMaterial, Loader } from '@react-three/drei
 import * as THREE from 'three'
 import RobotModel from './RobotModel'
 import SceneDirector from './SceneDirector'
-import Particles from './Particles'
+import Starfield from './Starfield'
 
 const SPACE = '#05060a'
 
@@ -46,7 +46,7 @@ export default function HeroScene({ progressRef }) {
         camera={{ fov: 40, near: 0.01, far: 8000, position: [0, 100, 260] }}
       >
         <color attach="background" args={[SPACE]} />
-        <fogExp2 attach="fog" args={[SPACE, 0.0006]} />
+        <fogExp2 attach="fog" args={[SPACE, 0.00012]} />
 
         <Suspense fallback={null}>
           <RobotModel onBounds={onBounds} facing={0} />
@@ -54,13 +54,13 @@ export default function HeroScene({ progressRef }) {
             <>
               <Floor bounds={bounds} />
               <ContactShadows
-                position={[0, 0.5, 0]}
+                position={[bounds.center.x, bounds.min.y + 0.001, bounds.center.z]}
                 scale={bounds.size.y * 2.2}
                 blur={2.4}
                 opacity={0.65}
                 far={bounds.size.y * 0.6}
               />
-              <Particles progressRef={progressRef} bounds={bounds} />
+              <Starfield progressRef={progressRef} bounds={bounds} />
             </>
           )}
         </Suspense>

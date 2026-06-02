@@ -13,6 +13,16 @@ export const site = {
   url: 'https://qdigital99.com',
 }
 
+export const modelCredits = [
+  {
+    name: 'Moon man (yo oc humanoid)',
+    author: '3DWorkbench',
+    url: 'https://skfb.ly/6ZwMo',
+    license: 'CC BY 4.0',
+    licenseUrl: 'https://creativecommons.org/licenses/by/4.0/',
+  },
+]
+
 export const nav = [
   { label: 'Work', to: '/case-studies' },
   { label: 'Services', to: '/services' },

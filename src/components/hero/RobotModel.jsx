@@ -6,8 +6,7 @@ const MODEL_URL = '/models/moon_man_yo_oc_humanoid.glb'
 useGLTF.preload(MODEL_URL)
 
 /**
- * The character. Walking clip on loop; reports bounding box for camera framing.
- * Recentred to feet-at-y=0 — never scaled, only the camera moves.
+ * The character. Walking clip on loop; feet on ground plane; casts shadows.
  */
 export default function RobotModel({ onBounds, facing = 0 }) {
   const outer = useRef(null)

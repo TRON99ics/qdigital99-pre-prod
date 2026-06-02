@@ -7,7 +7,7 @@ const damp = (current, target, lambda, dt) =>
   THREE.MathUtils.damp(current, target, lambda, dt)
 
 /**
- * Camera, lighting, and scroll-driven fog for the interstellar hero.
+ * Camera, lighting, shadows, and scroll-driven fog for the hero.
  */
 export default function SceneDirector({ progressRef, bounds }) {
   const { camera, gl, scene } = useThree()
@@ -23,7 +23,7 @@ export default function SceneDirector({ progressRef, bounds }) {
     if (!bounds) return
     const h = bounds.size.y
     camera.near = h * 0.002
-    camera.far = h * 12
+    camera.far = h * 14
     camera.updateProjectionMatrix()
     inited.current = false
   }, [bounds, camera])
@@ -59,7 +59,7 @@ export default function SceneDirector({ progressRef, bounds }) {
     if (fillLight.current) fillLight.current.intensity = 0.6 + expose * 1.2
 
     if (scene.fog) {
-      scene.fog.density = ((1.5 - expose * 1.05) + dive * 2.4) / h
+      scene.fog.density = ((0.85 - expose * 0.55) + dive * 1.6) / h
     }
   })
 

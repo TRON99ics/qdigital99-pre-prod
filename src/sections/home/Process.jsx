@@ -27,6 +27,7 @@ export default function Process() {
           start: () => `top top+=${getSiteHeaderPx()}`,
           end: '+=300%',
           pin: '[data-pin]',
+          pinType: 'transform',
           scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,

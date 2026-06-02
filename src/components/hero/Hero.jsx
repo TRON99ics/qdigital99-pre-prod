@@ -14,6 +14,7 @@ function bindHeroScroll(trigger, refs, end) {
     start: 'top top',
     end,
     pin: true,
+    pinType: 'transform',
     scrub: 1,
     anticipatePin: 1,
     invalidateOnRefresh: true,

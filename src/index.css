@@ -161,6 +161,17 @@
     }
   }
 
+  /* Chromatic mouse ripple — filter is toggled on/off from JS while moving */
+  .chromatic-ripple-root {
+    will-change: filter;
+  }
+
+  @media (prefers-reduced-motion: reduce), (pointer: coarse) {
+    .chromatic-ripple-root {
+      filter: none !important;
+    }
+  }
+
   /* Featured work — horizontal cards clipped to pinned stage */
   .featured-work-stage {
     contain: layout paint;

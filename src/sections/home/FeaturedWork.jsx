@@ -34,6 +34,7 @@ export default function FeaturedWork() {
           start: () => `top top+=${getSiteHeaderPx()}`,
           end: () => `+=${distance + window.innerHeight * 0.5}`,
           pin: pinEl,
+          pinType: 'transform',
           scrub: 1,
           invalidateOnRefresh: true,
           anticipatePin: 1,

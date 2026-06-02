@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
-import Cursor from '../ui/Cursor'
+import ChromaticRipple from '../ui/ChromaticRipple'
 import { syncSiteHeaderVar } from '../../lib/layout'
 import { getLenis, refreshScroll } from '../../lib/scroll'
 
@@ -28,12 +28,13 @@ export default function Layout() {
 
   return (
     <>
-      <Cursor />
       <Navbar />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
+      <ChromaticRipple>
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </ChromaticRipple>
     </>
   )
 }

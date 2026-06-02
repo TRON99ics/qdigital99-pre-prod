@@ -2,6 +2,7 @@
 export const site = {
   name: 'QDigital99',
   tagline: 'Growth, engineered.',
+  loadingEyebrow: 'Acquire · Convert · Scale',
   positioning: 'A growth partner that understands both creativity and performance.',
   email: 'team.qdigital99@gmail.com',
   phones: [

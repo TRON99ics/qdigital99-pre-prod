@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { site } from '../../data/site'
 import Odometer from './Odometer'
 
 export default function EnteringLoader({ display, progress, phase, onExitComplete }) {
@@ -44,7 +45,7 @@ export default function EnteringLoader({ display, progress, phase, onExitComplet
           phase === 'exiting' && !reduced ? 'entering-loader-panel--exit' : ''
         }`}
       >
-        <div className="eyebrow mb-4 text-white/45">Entering</div>
+        <div className="eyebrow mb-4 text-white/45">{site.loadingEyebrow}</div>
 
         <div className="flex flex-wrap items-end gap-5 md:gap-6">
           <Odometer value={display} roll={!reduced && phase === 'loading'} />

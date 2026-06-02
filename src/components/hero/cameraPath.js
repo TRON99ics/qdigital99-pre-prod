@@ -25,7 +25,7 @@ const smooth = (t) => t * t * (3 - 2 * t)
  * Sample the storyboard at progress p (0..1) and resolve to world-space
  * position + look target using the model bounds.
  */
-export function sampleCamera(p, bounds, out) {
+export function sampleCamera(p, bounds, out, { distance = 1 } = {}) {
   const { size, center, min } = bounds
   const h = size.y || 1
   let i = 0
@@ -39,7 +39,8 @@ export function sampleCamera(p, bounds, out) {
   const posZ = a.posZ + (b.posZ - a.posZ) * e
   const lookY = a.lookY + (b.lookY - a.lookY) * e
 
-  out.pos.set(center.x, min.y + posY * h, center.z + posZ * h)
+  const z = posZ * h * distance
+  out.pos.set(center.x, min.y + posY * h, center.z + z)
   out.look.set(center.x, min.y + lookY * h, center.z)
   return out
 }

@@ -9,7 +9,7 @@ useGLTF.preload(ROBOT_MODEL_URL)
 /**
  * The character. Walking clip on loop; feet on ground plane; casts shadows.
  */
-export default function RobotModel({ onBounds, facing = 0 }) {
+export default function RobotModel({ onBounds, facing = 0, scale = 1 }) {
   const outer = useRef(null)
   const inner = useRef(null)
   const { scene, animations } = useGLTF(ROBOT_MODEL_URL)
@@ -45,13 +45,16 @@ export default function RobotModel({ onBounds, facing = 0 }) {
     box.getSize(size)
     box.getCenter(center)
     outer.current.position.set(-center.x, -box.min.y, -center.z)
+    outer.current.scale.setScalar(scale)
+
+    const scaled = size.clone().multiplyScalar(scale)
     onBounds?.({
-      size,
-      center: new THREE.Vector3(0, size.y / 2, 0),
-      min: new THREE.Vector3(-size.x / 2, 0, -size.z / 2),
-      max: new THREE.Vector3(size.x / 2, size.y, size.z / 2),
+      size: scaled,
+      center: new THREE.Vector3(0, scaled.y / 2, 0),
+      min: new THREE.Vector3(-scaled.x / 2, 0, -scaled.z / 2),
+      max: new THREE.Vector3(scaled.x / 2, scaled.y, scaled.z / 2),
     })
-  }, [onBounds, scene, facing])
+  }, [onBounds, scene, facing, scale])
 
   return (
     <group ref={outer}>

@@ -9,6 +9,12 @@ import AquaCaustics from './AquaCaustics'
 
 const SPACE = '#05060a'
 
+/** Standard mobile hero framing — smaller subject, more breathing room for copy. */
+const MOBILE_HERO = {
+  robotScale: 0.68,
+  fov: 48,
+}
+
 function Floor({ bounds }) {
   const h = bounds.size.y
   return (
@@ -59,14 +65,23 @@ export default function HeroScene({ progressRef }) {
         shadows={!isMobile}
         dpr={isMobile ? [1, 1.25] : [1, 2]}
         gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.9 }}
-        camera={{ fov: 40, near: 0.01, far: 8000, position: [0, 100, 260] }}
+        camera={{
+          fov: isMobile ? MOBILE_HERO.fov : 44,
+          near: 0.01,
+          far: 8000,
+          position: [0, 100, 260],
+        }}
       >
         <color attach="background" args={[SPACE]} />
         <fogExp2 attach="fog" args={[SPACE, 0.00012]} />
 
         <Suspense fallback={null}>
           {bounds && <Starfield progressRef={progressRef} bounds={bounds} />}
-          <RobotModel onBounds={onBounds} facing={Math.PI} />
+          <RobotModel
+            onBounds={onBounds}
+            facing={Math.PI}
+            scale={isMobile ? MOBILE_HERO.robotScale : 1}
+          />
           {bounds && (
             <>
               <Floor bounds={bounds} />
@@ -83,7 +98,7 @@ export default function HeroScene({ progressRef }) {
           )}
         </Suspense>
 
-        <SceneDirector progressRef={progressRef} bounds={bounds} />
+        <SceneDirector progressRef={progressRef} bounds={bounds} mobile={isMobile} />
       </Canvas>
     </>
   )

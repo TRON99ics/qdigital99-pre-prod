@@ -9,7 +9,10 @@ const damp = (current, target, lambda, dt) =>
 /**
  * Camera, lighting, shadows, and scroll-driven fog for the hero.
  */
-export default function SceneDirector({ progressRef, bounds }) {
+/** Hero framing on phones — same storyboard, pulled back + wider FOV in HeroScene. */
+const MOBILE_CAMERA_DISTANCE = 1.22
+
+export default function SceneDirector({ progressRef, bounds, mobile = false }) {
   const { camera, gl, scene } = useThree()
   const target = useRef({ pos: new THREE.Vector3(), look: new THREE.Vector3() })
   const curLook = useRef(new THREE.Vector3())
@@ -34,7 +37,9 @@ export default function SceneDirector({ progressRef, bounds }) {
     const p = progressRef.current
     const dt = Math.min(delta, 0.05)
 
-    sampleCamera(p, bounds, target.current)
+    sampleCamera(p, bounds, target.current, {
+      distance: mobile ? MOBILE_CAMERA_DISTANCE : 1,
+    })
 
     if (!inited.current) {
       camera.position.copy(target.current.pos)

@@ -9,22 +9,29 @@ export const useLenis = () => useContext(LenisContext)
 
 /**
  * Lenis smooth scroll synced to GSAP ScrollTrigger.
- * scrollerProxy keeps ScrollTrigger aligned with Lenis scroll position so
- * reveal animations actually fire (otherwise sections stay opacity: 0).
+ * Touch / narrow viewports use lower multipliers so scroll feels controlled.
  */
 export default function SmoothScroll({ children }) {
   const lenisRef = useRef(null)
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) return
+
+    const coarse = window.matchMedia('(pointer: coarse)').matches
     const narrow = window.matchMedia('(max-width: 767px)').matches
-    if (reduced || narrow) return
+    const touchLike = coarse || narrow
 
     const lenis = new Lenis({
-      duration: 1.1,
+      lerp: touchLike ? 0.055 : 0.1,
+      duration: touchLike ? 1.5 : 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      syncTouch: touchLike,
+      syncTouchLerp: 0.05,
+      touchInertiaExponent: touchLike ? 1.25 : 1.7,
+      touchMultiplier: touchLike ? 0.42 : 1.5,
+      wheelMultiplier: touchLike ? 0.85 : 1,
       autoRaf: false,
     })
     lenisRef.current = lenis
@@ -52,7 +59,6 @@ export default function SmoothScroll({ children }) {
     lenis.on('scroll', ScrollTrigger.update)
 
     const onTick = (time) => lenis.raf(time * 1000)
-    // Prioritize Lenis in the ticker to reduce jitter with ScrollTrigger.
     gsap.ticker.add(onTick, false, true)
     gsap.ticker.lagSmoothing(0)
 
@@ -62,7 +68,6 @@ export default function SmoothScroll({ children }) {
     const onLoad = () => refreshScroll()
     window.addEventListener('load', onLoad)
 
-    // Initial refresh after all section ScrollTriggers mount.
     const t1 = setTimeout(refreshScroll, 100)
     const t2 = setTimeout(refreshScroll, 800)
 

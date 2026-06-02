@@ -4,10 +4,25 @@ import Container from '../../components/ui/Container'
 import SectionHeading from '../../components/ui/SectionHeading'
 import { gsap, ScrollTrigger } from '../../lib/gsap'
 import { getSiteHeaderPx } from '../../lib/layout'
+import { refreshScroll } from '../../lib/scroll'
 import { caseStudies } from '../../data/caseStudies'
 
+function bindImageRefresh(row) {
+  row.querySelectorAll('img').forEach((img) => {
+    if (img.complete) return
+    img.addEventListener(
+      'load',
+      () => {
+        ScrollTrigger.refresh()
+        refreshScroll()
+      },
+      { once: true },
+    )
+  })
+}
+
 /**
- * SECTION 06 — Featured work. Horizontal GSAP scroll of large editorial cards.
+ * SECTION 06 — Featured work. Vertical scroll drives horizontal card travel (all breakpoints).
  */
 export default function FeaturedWork() {
   const wrap = useRef(null)
@@ -20,35 +35,38 @@ export default function FeaturedWork() {
     const row = track.current
     if (!el || !pinEl || !row) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const mm = gsap.matchMedia()
+    if (reduced) return
 
-    mm.add('(min-width: 768px)', () => {
-      if (reduced) return
-      const distance = row.scrollWidth - window.innerWidth
-      if (distance <= 0) return
+    const ctx = gsap.context(() => {
+      const scrollDistance = () => Math.max(0, row.scrollWidth - window.innerWidth)
+      const endPadding = () => (window.innerWidth < 768 ? 0.32 : 0.45)
+
       gsap.to(row, {
-        x: -distance,
+        x: () => -scrollDistance(),
         ease: 'none',
         scrollTrigger: {
           trigger: el,
           start: () => `top top+=${getSiteHeaderPx()}`,
-          end: () => `+=${distance + window.innerHeight * 0.5}`,
+          end: () => `+=${scrollDistance() + window.innerHeight * endPadding()}`,
           pin: pinEl,
           pinType: 'transform',
-          scrub: 1,
+          scrub: 0.85,
           invalidateOnRefresh: true,
           anticipatePin: 1,
         },
       })
-    })
-    return () => mm.revert()
+
+      bindImageRefresh(row)
+    }, el)
+
+    return () => ctx.revert()
   }, [])
 
   return (
-    <section ref={wrap} className="relative isolate z-10 overflow-hidden bg-paper py-20 md:py-0">
+    <section ref={wrap} className="relative isolate z-10 overflow-hidden bg-paper">
       <div
         ref={pin}
-        className="md:grid md:h-[calc(100svh-var(--site-header))] md:grid-rows-[auto_minmax(0,1fr)] md:gap-6 md:overflow-hidden md:bg-paper md:pb-8 md:pt-5"
+        className="grid h-[calc(100svh-var(--site-header))] grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden bg-paper pb-5 pt-4 md:gap-6 md:pb-8 md:pt-5"
       >
         <div className="w-full min-w-0 shrink-0">
           <Container>
@@ -56,37 +74,34 @@ export default function FeaturedWork() {
           </Container>
         </div>
 
-        {/* Cards live in a fixed-height stage — no bleed into the next section */}
         <div className="featured-work-stage min-h-0 overflow-hidden bg-paper md:px-10 lg:px-14">
           <div
             ref={track}
-            className="flex h-full w-max flex-col gap-8 md:flex-row md:items-stretch md:gap-10"
+            className="flex h-full w-max flex-row items-stretch gap-5 pl-6 md:gap-10 md:pl-0"
           >
             {caseStudies.map((cs) => (
               <Link
                 key={cs.id}
                 to="/case-studies"
-                className="group relative flex w-full shrink-0 flex-col overflow-hidden rounded-[var(--radius-xl)] border border-line bg-surface md:h-full md:max-h-full md:w-[min(60vw,42rem)] lg:w-[min(44vw,36rem)]"
+                className="group relative flex h-full max-h-full w-[min(88vw,22rem)] shrink-0 flex-col overflow-hidden rounded-[var(--radius-xl)] border border-line bg-surface md:w-[min(60vw,42rem)] lg:w-[min(44vw,36rem)]"
               >
-                <div className="relative aspect-[16/10] overflow-hidden md:aspect-auto md:min-h-0 md:flex-1">
+                <div className="relative min-h-0 flex-1 overflow-hidden">
                   <img
                     src={cs.image}
                     alt={cs.title}
                     loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="h-full min-h-[9rem] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 md:min-h-0"
                   />
-                  <span className="absolute left-5 top-5 rounded-full bg-paper/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur">
+                  <span className="absolute left-4 top-4 rounded-full bg-paper/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur md:left-5 md:top-5">
                     {cs.industry}
                   </span>
                 </div>
-                <div className="flex shrink-0 flex-col p-7 md:p-8">
-                  <h3 className="text-2xl font-medium tracking-tight text-ink md:text-3xl">
-                    {cs.title}
-                  </h3>
-                  <div className="mt-auto flex flex-wrap gap-6 pt-6 md:gap-8 md:pt-8">
+                <div className="flex shrink-0 flex-col p-5 md:p-8">
+                  <h3 className="text-xl font-medium tracking-tight text-ink md:text-3xl">{cs.title}</h3>
+                  <div className="mt-auto flex flex-wrap gap-4 pt-4 md:gap-8 md:pt-8">
                     {cs.results.map((r) => (
                       <div key={r.label}>
-                        <div className="text-3xl font-semibold tracking-tight text-blue">
+                        <div className="text-2xl font-semibold tracking-tight text-blue md:text-3xl">
                           {r.value}
                           {r.suffix}
                         </div>

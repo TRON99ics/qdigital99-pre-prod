@@ -172,9 +172,15 @@
     }
   }
 
-  /* Featured work — horizontal cards clipped to pinned stage */
+  /* Featured work — GSAP horizontal pin stage (overflow hidden at all breakpoints) */
   .featured-work-stage {
-    contain: layout paint;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .featured-work-stage {
+      contain: layout paint;
+    }
   }
 
   .marquee-track {

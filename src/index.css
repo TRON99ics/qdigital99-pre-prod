@@ -161,6 +161,24 @@
     }
   }
 
+  /* Featured work — horizontal cards clipped to pinned stage */
+  .featured-work-stage {
+    contain: layout paint;
+  }
+
+  .marquee-track {
+    animation: marquee-scroll linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
   /* Nav pill — revealed after hero (scale from center in Navbar) */
   .nav-shell-bg {
     border: 1px solid rgba(255, 255, 255, 0.12);

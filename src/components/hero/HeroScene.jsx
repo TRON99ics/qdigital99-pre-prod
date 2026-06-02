@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import RobotModel from './RobotModel'
 import SceneDirector from './SceneDirector'
 import Starfield from './Starfield'
+import AquaCaustics from './AquaCaustics'
 
 const SPACE = '#05060a'
 
@@ -53,6 +54,7 @@ export default function HeroScene({ progressRef }) {
           {bounds && (
             <>
               <Floor bounds={bounds} />
+              <AquaCaustics bounds={bounds} progressRef={progressRef} />
               <ContactShadows
                 position={[bounds.center.x, bounds.min.y + 0.001, bounds.center.z]}
                 scale={bounds.size.y * 2.2}

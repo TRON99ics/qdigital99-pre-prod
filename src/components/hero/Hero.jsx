@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from 'react'
 import { gsap, ScrollTrigger } from '../../lib/gsap'
 import HeroScene from './HeroScene'
+import HeroAqua from './HeroAqua'
 import { site } from '../../data/site'
 
 const smoothstep = (e0, e1, x) => {
@@ -15,13 +16,16 @@ export default function Hero() {
   const cue = useRef(null)
   const vignette = useRef(null)
   const chroma = useRef(null)
-  const black = useRef(null)
+  const singularity = useRef(null)
+  const aqua = useRef(null)
 
   useLayoutEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) {
       progressRef.current = 0.66
-      gsap.set([cue.current, vignette.current, chroma.current, black.current], { autoAlpha: 0 })
+      gsap.set([cue.current, vignette.current, chroma.current, singularity.current, aqua.current], {
+        autoAlpha: 0,
+      })
       return
     }
 
@@ -41,9 +45,18 @@ export default function Hero() {
             yPercent: -p * 40,
           })
           gsap.set(cue.current, { autoAlpha: 1 - smoothstep(0.02, 0.1, p) })
-          gsap.set(vignette.current, { opacity: smoothstep(0.5, 0.92, p) })
-          gsap.set(chroma.current, { opacity: smoothstep(0.8, 0.98, p) })
-          gsap.set(black.current, { opacity: smoothstep(0.9, 1, p) })
+          const diveP = smoothstep(0.82, 1, p)
+          gsap.set(vignette.current, {
+            opacity: smoothstep(0.5, 0.85, p) * (1 - diveP * 0.35) + diveP * 0.85,
+          })
+          gsap.set(chroma.current, { opacity: smoothstep(0.78, 0.92, p) * (1 - diveP * 0.5) })
+          gsap.set(singularity.current, {
+            opacity: diveP,
+            scale: 0.55 + diveP * 2.85,
+          })
+          gsap.set(aqua.current, {
+            opacity: (1 - diveP * 0.95) * (0.35 + smoothstep(0.08, 0.45, p) * 0.65),
+          })
         },
       })
       return () => st.kill()
@@ -56,6 +69,10 @@ export default function Hero() {
     <section ref={trigger} className="relative h-screen w-full overflow-hidden bg-[#05060a]">
       <div className="absolute inset-0">
         <HeroScene progressRef={progressRef} />
+      </div>
+
+      <div ref={aqua} className="opacity-0">
+        <HeroAqua />
       </div>
 
       {/* SHOT 01 — arrival copy */}
@@ -99,8 +116,17 @@ export default function Hero() {
         }}
       />
 
-      {/* SHOT 06 — rebirth to black */}
-      <div ref={black} className="pointer-events-none absolute inset-0 z-40 bg-black opacity-0" />
+      {/* SHOT 06 — black hole dive: collapsing singularity */}
+      <div
+        ref={singularity}
+        className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center opacity-0"
+        style={{ transformOrigin: '50% 48%' }}
+      >
+        <div
+          className="hero-singularity h-[min(200vmax,2800px)] w-[min(200vmax,2800px)] rounded-full"
+          aria-hidden
+        />
+      </div>
     </section>
   )
 }

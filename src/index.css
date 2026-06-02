@@ -107,6 +107,84 @@
   .line-mask { overflow: hidden; display: block; }
 
   .no-lenis { overscroll-behavior: contain; }
+
+  /* Hero aqua atmosphere */
+  .hero-aqua__blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(72px);
+    opacity: 0.45;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+
+  .hero-aqua__blob--1 {
+    width: min(55vw, 520px);
+    height: min(55vw, 520px);
+    left: -8%;
+    top: 18%;
+    background: radial-gradient(circle, rgba(0, 212, 170, 0.55) 0%, transparent 68%);
+    animation: hero-aqua-drift-a 22s ease-in-out infinite;
+  }
+
+  .hero-aqua__blob--2 {
+    width: min(48vw, 460px);
+    height: min(48vw, 460px);
+    right: -6%;
+    bottom: 12%;
+    background: radial-gradient(circle, rgba(19, 71, 255, 0.5) 0%, transparent 70%);
+    animation: hero-aqua-drift-b 26s ease-in-out infinite;
+  }
+
+  .hero-aqua__blob--3 {
+    width: min(42vw, 400px);
+    height: min(42vw, 400px);
+    left: 32%;
+    bottom: -8%;
+    background: radial-gradient(circle, rgba(64, 224, 255, 0.4) 0%, transparent 72%);
+    animation: hero-aqua-drift-c 19s ease-in-out infinite;
+  }
+}
+
+@keyframes hero-aqua-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(6%, -4%) scale(1.08); }
+  66% { transform: translate(-4%, 5%) scale(0.94); }
+}
+
+@keyframes hero-aqua-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40% { transform: translate(-7%, 3%) scale(1.1); }
+  70% { transform: translate(5%, -6%) scale(0.92); }
+}
+
+@keyframes hero-aqua-drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4%, -5%) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-aqua__blob {
+    animation: none;
+    opacity: 0.25;
+  }
+}
+
+/* Black hole dive — accretion ring + void center */
+.hero-singularity {
+  background: radial-gradient(
+    circle at 50% 48%,
+    #000000 0%,
+    #000000 14%,
+    rgba(0, 0, 0, 0.98) 22%,
+    rgba(12, 24, 68, 0.75) 34%,
+    rgba(45, 90, 220, 0.28) 42%,
+    rgba(100, 160, 255, 0.1) 48%,
+    transparent 58%
+  );
+  box-shadow:
+    0 0 120px 40px rgba(30, 60, 180, 0.15),
+    inset 0 0 80px 30px rgba(0, 0, 0, 0.9);
 }
 
 /* Lenis smooth scroll baseline */

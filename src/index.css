@@ -34,6 +34,7 @@
 
   /* Layout */
   --radius-xl: 1.5rem;
+  --site-header: 5.75rem;
 }
 
 @layer base {
@@ -133,6 +134,15 @@
   }
 
   .no-lenis { overscroll-behavior: contain; }
+
+  /* Nav pill — revealed after hero (scale from center in Navbar) */
+  .nav-shell-bg {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.88);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
 }
 
 /* Black hole dive — invitation line */

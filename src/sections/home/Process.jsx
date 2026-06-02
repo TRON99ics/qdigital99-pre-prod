@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import Container from '../../components/ui/Container'
 import { gsap, ScrollTrigger } from '../../lib/gsap'
+import { getSiteHeaderPx } from '../../lib/layout'
 import { process } from '../../data/content'
 
 /**
@@ -20,10 +21,12 @@ export default function Process() {
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: el,
-        start: 'top top',
+        start: () => `top top+=${getSiteHeaderPx()}`,
         end: '+=300%',
         pin: '[data-pin]',
         scrub: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
           const p = self.progress
           if (fill.current) gsap.set(fill.current, { scaleY: p })
@@ -37,7 +40,7 @@ export default function Process() {
 
   return (
     <section ref={wrap} className="bg-surface">
-      <div data-pin className="flex h-screen items-center">
+      <div data-pin className="flex h-[calc(100svh-var(--site-header))] items-center">
         <Container>
           <div className="grid gap-12 md:grid-cols-[auto_1fr] md:gap-20">
             <div className="flex items-stretch gap-6">

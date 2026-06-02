@@ -69,7 +69,11 @@ export default function Hero() {
   }, [])
 
   return (
-    <section ref={trigger} className="relative h-screen w-full overflow-hidden bg-[#05060a]">
+    <section
+      ref={trigger}
+      data-hero
+      className="relative h-screen w-full overflow-hidden bg-[#05060a]"
+    >
       <div className="absolute inset-0">
         <HeroScene progressRef={progressRef} />
       </div>

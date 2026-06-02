@@ -17,7 +17,8 @@ export default function SmoothScroll({ children }) {
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced) return
+    const narrow = window.matchMedia('(max-width: 767px)').matches
+    if (reduced || narrow) return
 
     const lenis = new Lenis({
       duration: 1.1,

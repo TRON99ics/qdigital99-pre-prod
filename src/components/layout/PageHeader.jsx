@@ -7,7 +7,7 @@ import Reveal from '../motion/Reveal'
  */
 export default function PageHeader({ eyebrow, title, intro, meta }) {
   return (
-    <header className="relative bg-ink pb-20 pt-40 text-white md:pb-28 md:pt-52">
+    <header className="relative bg-ink pb-20 pt-[calc(var(--site-header)+2.5rem)] text-white md:pb-28 md:pt-[calc(var(--site-header)+4rem)]">
       <Container>
         <div className="eyebrow mb-8 flex items-center gap-3 text-white/40">
           <span className="inline-block h-px w-8 bg-white/30" />

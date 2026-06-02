@@ -28,7 +28,7 @@ export default function IndustriesSection() {
             >
               <div className="flex items-baseline gap-5">
                 <span className="text-xs tabular-nums text-ink-muted">0{i + 1}</span>
-                <h3 className="text-3xl font-medium tracking-tight text-ink transition-transform duration-500 group-hover:translate-x-2 md:text-5xl">
+                <h3 className="text-balance break-words text-3xl font-medium tracking-tight text-ink transition-transform duration-500 md:text-5xl md:group-hover:translate-x-2">
                   {ind.name}
                 </h3>
               </div>

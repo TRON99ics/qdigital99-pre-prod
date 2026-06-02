@@ -43,7 +43,7 @@ export default function Services() {
                 </div>
                 <div className="flex flex-col justify-between">
                   <p className="max-w-[52ch] text-lg leading-relaxed text-ink-muted">{c.detail}</p>
-                  <ul className="mt-8 grid grid-cols-2 gap-x-8 gap-y-3">
+                  <ul className="mt-8 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
                     {c.points.map((p) => (
                       <li key={p} className="flex items-center gap-3 text-ink-soft">
                         <span className="h-1.5 w-1.5 rounded-full bg-blue" />

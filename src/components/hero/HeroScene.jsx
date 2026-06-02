@@ -1,4 +1,4 @@
-import { Suspense, useState, useCallback } from 'react'
+import { Suspense, useState, useCallback, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { ContactShadows, MeshReflectorMaterial, Loader } from '@react-three/drei'
 import * as THREE from 'three'
@@ -34,15 +34,30 @@ function Floor({ bounds }) {
   )
 }
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false,
+  )
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const onChange = () => setMobile(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+  return mobile
+}
+
 export default function HeroScene({ progressRef }) {
   const [bounds, setBounds] = useState(null)
   const onBounds = useCallback((b) => setBounds(b), [])
+  const isMobile = useIsMobile()
 
   return (
     <>
       <Canvas
-        shadows
-        dpr={[1, 2]}
+        shadows={!isMobile}
+        dpr={isMobile ? [1, 1.25] : [1, 2]}
         gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.9 }}
         camera={{ fov: 40, near: 0.01, far: 8000, position: [0, 100, 260] }}
       >
@@ -59,9 +74,10 @@ export default function HeroScene({ progressRef }) {
               <ContactShadows
                 position={[bounds.center.x, bounds.min.y + 0.001, bounds.center.z]}
                 scale={bounds.size.y * 2.2}
-                blur={2.4}
+                blur={isMobile ? 1.8 : 2.4}
                 opacity={0.65}
                 far={bounds.size.y * 0.6}
+                resolution={isMobile ? 512 : 1024}
               />
             </>
           )}

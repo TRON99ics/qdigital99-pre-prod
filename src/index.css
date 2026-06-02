@@ -112,6 +112,12 @@
     }
   }
 
+  @media (max-width: 767px) {
+    .split-safe .line-mask {
+      padding-bottom: 0.12em;
+    }
+  }
+
   /* SplitText word masks — tight leading, minimal clip padding for reveal */
   .split-safe {
     line-height: 1.02;
@@ -134,6 +140,26 @@
   }
 
   .no-lenis { overscroll-behavior: contain; }
+
+  .safe-top {
+    padding-top: max(1.25rem, env(safe-area-inset-top, 0px));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .nav-menu-overlay {
+    padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
+    padding-left: max(2rem, env(safe-area-inset-left, 0px));
+    padding-right: max(2rem, env(safe-area-inset-right, 0px));
+  }
+
+  @media (max-height: 600px) {
+    .hero-scroll-cue {
+      display: none;
+    }
+  }
 
   /* Nav pill — revealed after hero (scale from center in Navbar) */
   .nav-shell-bg {

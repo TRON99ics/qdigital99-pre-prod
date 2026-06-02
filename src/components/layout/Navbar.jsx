@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { nav, site } from '../../data/site'
 import { useNavShell } from '../../lib/useNavShell'
+import { syncSiteHeaderVar } from '../../lib/layout'
+import { getLenis } from '../../lib/scroll'
 import Button from '../ui/Button'
 
 const shellEase = [0.16, 1, 0.3, 1]
@@ -18,8 +20,31 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
+    const sync = () => syncSiteHeaderVar()
+    sync()
+    window.addEventListener('resize', sync)
+    return () => window.removeEventListener('resize', sync)
+  }, [shell, location.pathname])
+
+  useEffect(() => {
     setOpen(false)
   }, [location.pathname])
+
+  useEffect(() => {
+    if (!open) return
+    const lenis = getLenis()
+    lenis?.stop()
+    document.documentElement.classList.add('overflow-hidden')
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      lenis?.start()
+      document.documentElement.classList.remove('overflow-hidden')
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [open])
 
   const linkActive = shell ? 'bg-white text-ink' : 'bg-white/15 text-white'
   const linkIdle = shell
@@ -28,7 +53,7 @@ export default function Navbar() {
 
   return (
     <header data-site-header className="pointer-events-none fixed inset-x-0 top-0 z-50">
-      <nav className="pointer-events-auto mx-auto max-w-[1600px] px-6 py-5 md:px-10">
+      <nav className="safe-top pointer-events-auto relative z-[60] mx-auto max-w-[1600px] px-6 pb-5 md:px-10">
         <div className="relative flex items-center justify-between gap-3 rounded-full px-2 py-2 md:gap-4 md:px-3 md:py-2.5">
           <motion.div
             aria-hidden
@@ -100,7 +125,8 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.35, ease: shellEase }}
-            className="pointer-events-auto fixed inset-0 z-50 flex flex-col justify-center gap-2 bg-ink px-8 md:hidden"
+            className="nav-menu-overlay pointer-events-auto fixed inset-x-0 bottom-0 z-40 flex flex-col justify-center gap-2 bg-ink px-8 md:hidden"
+            style={{ top: 'var(--site-header)' }}
           >
             {[...nav, { label: 'Contact', to: '/contact' }].map((item, i) => (
               <motion.div
@@ -109,7 +135,10 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 * i + 0.1 }}
               >
-                <Link to={item.to} className="display block py-1 text-white">
+                <Link
+                  to={item.to}
+                  className="block py-1 text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+                >
                   {item.label}
                 </Link>
               </motion.div>

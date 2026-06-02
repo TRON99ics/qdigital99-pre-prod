@@ -24,6 +24,7 @@ export default function Capabilities() {
               <li
                 key={c.id}
                 onMouseEnter={() => setActive(i)}
+                onClick={() => setActive(i)}
                 className={`group flex cursor-pointer items-center gap-5 border-b border-line px-6 py-5 transition-colors last:border-0 md:px-9 md:py-6 ${
                   active === i ? 'bg-ink text-white' : 'hover:bg-surface'
                 }`}

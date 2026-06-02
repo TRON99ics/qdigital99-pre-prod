@@ -5,7 +5,7 @@ import { useSeo } from '../lib/useSeo'
 export default function NotFound() {
   useSeo({ title: 'Not found', path: '/404' })
   return (
-    <section className="flex min-h-screen items-center bg-ink text-white">
+    <section className="flex min-h-[100svh] items-center bg-ink pb-16 pt-[calc(var(--site-header)+2rem)] text-white">
       <Container>
         <div className="eyebrow text-white/40">404</div>
         <h1 className="mega mt-6 text-white">Lost the thread.</h1>

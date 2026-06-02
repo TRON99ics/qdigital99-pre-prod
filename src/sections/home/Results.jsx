@@ -26,7 +26,7 @@ export default function Results() {
               y={30}
               className="min-w-0 bg-ink px-5 py-12 sm:px-6 md:py-14"
             >
-              <div className="stat-value whitespace-nowrap">
+              <div className="stat-value sm:whitespace-nowrap">
                 <Counter value={m.value} prefix={m.prefix} suffix={m.suffix} />
               </div>
               <div className="mt-5 text-sm leading-snug text-white/50">{m.label}</div>

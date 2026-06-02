@@ -58,7 +58,7 @@ export default function FeaturedWork() {
         <div className="min-w-0 w-full overflow-x-clip">
           <div
             ref={track}
-            className="flex w-max flex-col gap-8 px-6 md:flex-row md:gap-10 md:px-14"
+            className="flex w-max flex-col gap-8 px-6 md:flex-row md:gap-10 md:px-10 lg:px-14"
           >
           {caseStudies.map((cs) => (
             <Link

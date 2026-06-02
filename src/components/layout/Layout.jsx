@@ -3,10 +3,15 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import Cursor from '../ui/Cursor'
+import { syncSiteHeaderVar } from '../../lib/layout'
 import { getLenis, refreshScroll } from '../../lib/scroll'
 
 export default function Layout() {
   const { pathname } = useLocation()
+
+  useEffect(() => {
+    syncSiteHeaderVar()
+  }, [pathname])
 
   useEffect(() => {
     const lenis = getLenis()

@@ -1,4 +1,4 @@
-/** Fixed nav height — keep in sync with Navbar + `.nav-shell-bg` in index.css */
+/** Fixed nav height — synced to DOM via syncSiteHeaderVar() */
 export function getSiteHeaderPx() {
   const header = document.querySelector('[data-site-header]')
   if (header) return header.offsetHeight
@@ -9,5 +9,13 @@ export function getSiteHeaderPx() {
   document.body.appendChild(probe)
   const px = probe.offsetHeight
   probe.remove()
+  return px
+}
+
+/** Keep --site-header in sync with measured header (resize, route, shell reveal). */
+export function syncSiteHeaderVar() {
+  if (typeof document === 'undefined') return 88
+  const px = getSiteHeaderPx()
+  document.documentElement.style.setProperty('--site-header', `${px}px`)
   return px
 }

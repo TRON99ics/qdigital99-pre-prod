@@ -77,7 +77,7 @@ export default function Footer() {
             ))}
           </p>
 
-          <div className="flex flex-col gap-6 text-sm text-white/40 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-6 text-sm text-white/40 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-wrap gap-x-6 gap-y-2">
               {site.markets.map((m) => (
                 <span key={m}>{m}</span>

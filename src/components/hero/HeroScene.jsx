@@ -2,6 +2,7 @@ import { Suspense, useState, useCallback, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { ContactShadows, MeshReflectorMaterial } from '@react-three/drei'
 import * as THREE from 'three'
+import { isAndroidDevice } from '../../lib/scroll'
 import RobotModel from './RobotModel'
 import SceneDirector from './SceneDirector'
 import Starfield from './Starfield'
@@ -15,27 +16,31 @@ const MOBILE_HERO = {
   fov: 48,
 }
 
-function Floor({ bounds }) {
+function Floor({ bounds, lite }) {
   const h = bounds.size.y
   return (
     <mesh
       rotation={[-Math.PI / 2, 0, 0]}
       position={[bounds.center.x, bounds.min.y, bounds.center.z]}
-      receiveShadow
+      receiveShadow={!lite}
     >
       <planeGeometry args={[h * 8, h * 8]} />
-      <MeshReflectorMaterial
-        resolution={512}
-        mixBlur={1}
-        mixStrength={2.2}
-        blur={[600, 120]}
-        roughness={0.85}
-        depthScale={0.8}
-        minDepthThreshold={0.3}
-        maxDepthThreshold={1.2}
-        color="#06070c"
-        metalness={0.5}
-      />
+      {lite ? (
+        <meshStandardMaterial color="#06070c" roughness={0.92} metalness={0.08} />
+      ) : (
+        <MeshReflectorMaterial
+          resolution={512}
+          mixBlur={1}
+          mixStrength={2.2}
+          blur={[600, 120]}
+          roughness={0.85}
+          depthScale={0.8}
+          minDepthThreshold={0.3}
+          maxDepthThreshold={1.2}
+          color="#06070c"
+          metalness={0.5}
+        />
+      )}
     </mesh>
   )
 }
@@ -58,12 +63,14 @@ export default function HeroScene({ progressRef }) {
   const [bounds, setBounds] = useState(null)
   const onBounds = useCallback((b) => setBounds(b), [])
   const isMobile = useIsMobile()
+  const android = isAndroidDevice()
+  const liteGpu = android
 
   return (
     <>
       <Canvas
-        shadows={!isMobile}
-        dpr={isMobile ? [1, 1.25] : [1, 2]}
+        shadows={!isMobile && !android}
+        dpr={android ? [1, 1.1] : isMobile ? [1, 1.25] : [1, 2]}
         gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 0.9 }}
         camera={{
           fov: isMobile ? MOBILE_HERO.fov : 44,
@@ -84,8 +91,8 @@ export default function HeroScene({ progressRef }) {
           />
           {bounds && (
             <>
-              <Floor bounds={bounds} />
-              <AquaCaustics bounds={bounds} progressRef={progressRef} />
+              <Floor bounds={bounds} lite={liteGpu} />
+              {!liteGpu && <AquaCaustics bounds={bounds} progressRef={progressRef} />}
               <ContactShadows
                 position={[bounds.center.x, bounds.min.y + 0.001, bounds.center.z]}
                 scale={bounds.size.y * 2.2}
@@ -98,7 +105,7 @@ export default function HeroScene({ progressRef }) {
           )}
         </Suspense>
 
-        <SceneDirector progressRef={progressRef} bounds={bounds} mobile={isMobile} />
+        <SceneDirector progressRef={progressRef} bounds={bounds} mobile={isMobile || android} />
       </Canvas>
     </>
   )

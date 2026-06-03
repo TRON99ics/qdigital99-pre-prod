@@ -39,6 +39,7 @@ function setupNativeScrollProxy() {
       }
     },
   })
+  ScrollTrigger.defaults({ scroller: root })
 
   const onScroll = () => ScrollTrigger.update()
   window.addEventListener('scroll', onScroll, { passive: true })
@@ -46,6 +47,7 @@ function setupNativeScrollProxy() {
   return () => {
     window.removeEventListener('scroll', onScroll)
     ScrollTrigger.scrollerProxy(root, {})
+    ScrollTrigger.defaults({ scroller: window })
   }
 }
 

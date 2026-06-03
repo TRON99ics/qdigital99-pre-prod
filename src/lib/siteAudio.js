@@ -1,4 +1,5 @@
 export const SITE_AUDIO_SRC = '/audio/chiled-lofi.mp3'
+export const NAV_RIPPLE_SRC = '/audio/ripple.mp3'
 export const AUDIO_STORAGE_KEY = 'qdigital99-audio-muted'
 
 export function readMutedPreference() {

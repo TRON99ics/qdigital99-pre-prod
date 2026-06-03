@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { nav, site } from '../../data/site'
 import { useNavShell } from '../../lib/useNavShell'
 import { syncSiteHeaderVar } from '../../lib/layout'
 import { getLenis } from '../../lib/scroll'
 import Button from '../ui/Button'
-import { NavAudioToggle } from '../audio/SiteAudio'
+import { NavAudioToggle, NavRippleLink } from '../audio/SiteAudio'
 
 const shellEase = [0.16, 1, 0.3, 1]
 
@@ -71,7 +71,7 @@ export default function Navbar() {
             style={{ transformOrigin: 'center center' }}
           />
 
-          <Link
+          <NavRippleLink
             to="/"
             className="relative z-10 flex min-w-0 items-center gap-2 rounded-full px-2 py-1.5 text-base font-semibold tracking-tight text-white md:text-lg"
           >
@@ -79,11 +79,11 @@ export default function Navbar() {
               Q
             </span>
             <span className="truncate">{site.name}</span>
-          </Link>
+          </NavRippleLink>
 
           <div className="relative z-10 hidden items-center gap-0.5 md:flex">
             {nav.map((item) => (
-              <Link
+              <NavRippleLink
                 key={item.to}
                 to={item.to}
                 className={`rounded-full px-4 py-2 text-sm transition-colors ${
@@ -91,7 +91,7 @@ export default function Navbar() {
                 }`}
               >
                 {item.label}
-              </Link>
+              </NavRippleLink>
             ))}
           </div>
 
@@ -139,12 +139,12 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 * i + 0.1 }}
               >
-                <Link
+                <NavRippleLink
                   to={item.to}
                   className="block py-1 text-3xl font-semibold tracking-tight text-white sm:text-4xl"
                 >
                   {item.label}
-                </Link>
+                </NavRippleLink>
               </motion.div>
             ))}
           </motion.div>

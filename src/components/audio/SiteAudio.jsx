@@ -6,8 +6,16 @@ import {
   useRef,
   useState,
 } from 'react'
+
+const RIPPLE_DEBOUNCE_MS = 400
+import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { readMutedPreference, SITE_AUDIO_SRC, writeMutedPreference } from '../../lib/siteAudio'
+import {
+  readMutedPreference,
+  NAV_RIPPLE_SRC,
+  SITE_AUDIO_SRC,
+  writeMutedPreference,
+} from '../../lib/siteAudio'
 
 const BAR_COUNT = 7
 
@@ -24,8 +32,10 @@ export function useSiteAudio() {
  */
 export function SiteAudioProvider({ active, children }) {
   const audioRef = useRef(null)
+  const rippleRef = useRef(null)
   const mutedRef = useRef(readMutedPreference())
   const unlockedRef = useRef(false)
+  const detachInteractRef = useRef(() => {})
 
   const [unlocked, setUnlocked] = useState(false)
   const [muted, setMuted] = useState(() => readMutedPreference())
@@ -68,8 +78,16 @@ export function SiteAudioProvider({ active, children }) {
     setUnlocked(true)
   }, [])
 
+  const playNavRipple = useCallback(() => {
+    const ripple = rippleRef.current
+    if (!ripple) return
+    ripple.currentTime = 0
+    ripple.play().catch(() => {})
+  }, [])
+
   const toggleMute = useCallback(() => {
     markUnlocked()
+    detachInteractRef.current()
     if (mutedRef.current) {
       syncMuted(false)
       play().catch(() => {})
@@ -82,10 +100,12 @@ export function SiteAudioProvider({ active, children }) {
   // Initial element config + play/pause state sync.
   useEffect(() => {
     const audio = audioRef.current
+    const ripple = rippleRef.current
     if (!audio) return
 
     audio.volume = 0.42
     audio.muted = mutedRef.current
+    if (ripple) ripple.volume = 0.55
 
     const onPlay = () => setPlaying(!audio.muted)
     const onPause = () => setPlaying(false)
@@ -112,11 +132,17 @@ export function SiteAudioProvider({ active, children }) {
     }
 
     const onInteract = (e) => {
-      // Let the toggle button handle its own click.
       if (e.target?.closest?.('[data-audio-toggle]')) {
         detach()
         return
       }
+      // Nav uses ripple SFX only — never start or restart lofi from nav clicks.
+      if (e.target?.closest?.('[data-nav-link]')) return
+      if (unlockedRef.current && !mutedRef.current) {
+        const audio = audioRef.current
+        if (audio && !audio.paused) return
+      }
+
       markUnlocked()
       syncMuted(false)
       play()
@@ -126,6 +152,7 @@ export function SiteAudioProvider({ active, children }) {
         })
     }
 
+    detachInteractRef.current = detach
     events.forEach((evt) =>
       document.addEventListener(evt, onInteract, { capture: true, passive: true }),
     )
@@ -144,7 +171,7 @@ export function SiteAudioProvider({ active, children }) {
   }, [pause, play])
 
   const live = playing && !muted
-  const value = { unlocked, muted, playing: live, toggleMute }
+  const value = { unlocked, muted, playing: live, toggleMute, playNavRipple }
 
   return (
     <SiteAudioContext.Provider value={value}>
@@ -154,12 +181,54 @@ export function SiteAudioProvider({ active, children }) {
         loop
         preload="auto"
         playsInline
-        x-webkit-airplay="allow"
+        className="sr-only"
+        aria-hidden="true"
+      />
+      <audio
+        ref={rippleRef}
+        src={NAV_RIPPLE_SRC}
+        preload="auto"
+        playsInline
         className="sr-only"
         aria-hidden="true"
       />
       {children}
     </SiteAudioContext.Provider>
+  )
+}
+
+/** Nav link — plays ripple SFX when navigating to a new route (music on or muted). */
+export function NavRippleLink({ to, className, children, onClick, onPointerDown, ...rest }) {
+  const ctx = useSiteAudio()
+  const { pathname } = useLocation()
+  const navigating = pathname !== to
+  const lastRippleAt = useRef(0)
+
+  const tryRipple = () => {
+    if (!navigating || !ctx?.playNavRipple) return
+    const now = performance.now()
+    if (now - lastRippleAt.current < RIPPLE_DEBOUNCE_MS) return
+    lastRippleAt.current = now
+    ctx.playNavRipple()
+  }
+
+  return (
+    <Link
+      to={to}
+      data-nav-link
+      className={className}
+      onPointerDownCapture={(e) => {
+        tryRipple()
+        onPointerDown?.(e)
+      }}
+      onClick={(e) => {
+        tryRipple()
+        onClick?.(e)
+      }}
+      {...rest}
+    >
+      {children}
+    </Link>
   )
 }
 

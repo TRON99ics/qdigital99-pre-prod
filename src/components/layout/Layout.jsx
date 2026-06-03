@@ -8,6 +8,7 @@ import { syncSiteHeaderVar } from '../../lib/layout'
 import { useEnteringLoad } from '../../lib/useEnteringLoad'
 import { getLenis, refreshScroll } from '../../lib/scroll'
 import { preloadRobotModel } from '../../lib/robotModel'
+import { SiteAudioProvider } from '../audio/SiteAudio'
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -45,17 +46,19 @@ export default function Layout() {
         onExitComplete={finishExit}
       />
 
-      <div className={ready ? undefined : 'invisible'} aria-hidden={!ready}>
-        <Navbar />
-        <ChromaticRipple>
-          <main>
-            <Suspense fallback={null}>
-              <Outlet />
-            </Suspense>
-          </main>
-          <Footer />
-        </ChromaticRipple>
-      </div>
+      <SiteAudioProvider active={ready}>
+        <div className={ready ? undefined : 'invisible'} aria-hidden={!ready}>
+          <Navbar />
+          <ChromaticRipple>
+            <main>
+              <Suspense fallback={null}>
+                <Outlet />
+              </Suspense>
+            </main>
+            <Footer />
+          </ChromaticRipple>
+        </div>
+      </SiteAudioProvider>
     </>
   )
 }

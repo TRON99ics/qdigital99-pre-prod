@@ -252,6 +252,66 @@
     transform: translate3d(0, -105%, 0);
   }
 
+  /* Site audio — navbar wave visualizer (pure CSS equalizer) */
+  .audio-wave {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    height: 20px;
+    width: 26px;
+  }
+
+  .audio-wave-bar {
+    display: block;
+    width: 3px;
+    height: 20px;
+    border-radius: 999px;
+    transform: scaleY(0.22);
+    transform-origin: center;
+    background: linear-gradient(to top, var(--color-blue-soft), var(--color-blue));
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+  }
+
+  /* Idle / muted — short calm bars */
+  .audio-wave--muted .audio-wave-bar {
+    transform: scaleY(0.28);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.6));
+  }
+
+  .audio-toggle:hover .audio-wave--muted .audio-wave-bar {
+    transform: scaleY(0.42);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.85));
+  }
+
+  /* Live — juicy bouncing equalizer, each bar desynced */
+  .audio-wave--live .audio-wave-bar {
+    animation: audio-eq 0.85s ease-in-out infinite alternate;
+    box-shadow: 0 0 8px rgba(19, 71, 255, 0.55);
+  }
+
+  .audio-wave--live .audio-wave-bar:nth-child(1) { animation-duration: 0.62s; animation-delay: -0.20s; }
+  .audio-wave--live .audio-wave-bar:nth-child(2) { animation-duration: 0.78s; animation-delay: -0.45s; }
+  .audio-wave--live .audio-wave-bar:nth-child(3) { animation-duration: 0.54s; animation-delay: -0.10s; }
+  .audio-wave--live .audio-wave-bar:nth-child(4) { animation-duration: 0.92s; animation-delay: -0.60s; }
+  .audio-wave--live .audio-wave-bar:nth-child(5) { animation-duration: 0.58s; animation-delay: -0.30s; }
+  .audio-wave--live .audio-wave-bar:nth-child(6) { animation-duration: 0.82s; animation-delay: -0.05s; }
+  .audio-wave--live .audio-wave-bar:nth-child(7) { animation-duration: 0.68s; animation-delay: -0.50s; }
+
+  @keyframes audio-eq {
+    0% { transform: scaleY(0.25); }
+    100% { transform: scaleY(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .audio-wave--live .audio-wave-bar {
+      animation: none;
+      transform: scaleY(0.6);
+    }
+  }
+
   /* Nav pill — revealed after hero (scale from center in Navbar) */
   .nav-shell-bg {
     border: 1px solid rgba(255, 255, 255, 0.12);

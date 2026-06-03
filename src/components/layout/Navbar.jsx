@@ -6,6 +6,7 @@ import { useNavShell } from '../../lib/useNavShell'
 import { syncSiteHeaderVar } from '../../lib/layout'
 import { getLenis } from '../../lib/scroll'
 import Button from '../ui/Button'
+import { NavAudioToggle } from '../audio/SiteAudio'
 
 const shellEase = [0.16, 1, 0.3, 1]
 
@@ -94,10 +95,13 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="relative z-10 hidden md:block">
-            <Button to="/contact" variant="primary" size="md">
-              Start a project
-            </Button>
+          <div className="relative z-10 flex items-center gap-2 md:gap-3">
+            <NavAudioToggle />
+            <div className="hidden md:block">
+              <Button to="/contact" variant="primary" size="md">
+                Start a project
+              </Button>
+            </div>
           </div>
 
           <button

@@ -4,7 +4,7 @@ import Container from '../../components/ui/Container'
 import SectionHeading from '../../components/ui/SectionHeading'
 import { gsap, ScrollTrigger } from '../../lib/gsap'
 import { getSiteHeaderPx } from '../../lib/layout'
-import { refreshScroll } from '../../lib/scroll'
+import { isAndroidDevice, refreshScroll } from '../../lib/scroll'
 import { caseStudies } from '../../data/caseStudies'
 
 function bindImageRefresh(row) {
@@ -40,6 +40,7 @@ export default function FeaturedWork() {
     const ctx = gsap.context(() => {
       const scrollDistance = () => Math.max(0, row.scrollWidth - window.innerWidth)
       const endPadding = () => (window.innerWidth < 768 ? 0.32 : 0.45)
+      const scrub = isAndroidDevice() ? 0.4 : 0.85
 
       gsap.to(row, {
         x: () => -scrollDistance(),
@@ -50,7 +51,7 @@ export default function FeaturedWork() {
           end: () => `+=${scrollDistance() + window.innerHeight * endPadding()}`,
           pin: pinEl,
           pinType: 'transform',
-          scrub: 0.85,
+          scrub,
           invalidateOnRefresh: true,
           anticipatePin: 1,
         },

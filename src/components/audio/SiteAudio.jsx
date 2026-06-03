@@ -7,7 +7,6 @@ import {
   useState,
 } from 'react'
 
-const RIPPLE_DEBOUNCE_MS = 400
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
@@ -19,7 +18,9 @@ import {
   writeMutedPreference,
 } from '../../lib/siteAudio'
 
+const RIPPLE_DEBOUNCE_MS = 400
 const BAR_COUNT = 7
+const GESTURE_SELECTOR = '[data-audio-toggle], [data-nav-menu-toggle], [data-nav-link]'
 
 const SiteAudioContext = createContext(null)
 
@@ -98,7 +99,7 @@ export function SiteAudioProvider({ active, children }) {
 
   const toggleMute = useCallback(() => {
     markUnlocked()
-    detachInteractRef.current()
+    consumeGestureOffer()
     if (mutedRef.current) {
       syncMuted(false)
       play().catch(() => {})
@@ -106,7 +107,7 @@ export function SiteAudioProvider({ active, children }) {
       syncMuted(true)
       pause()
     }
-  }, [markUnlocked, syncMuted, play, pause])
+  }, [markUnlocked, consumeGestureOffer, syncMuted, play, pause])
 
   // Initial element config + play/pause state sync.
   useEffect(() => {
@@ -130,35 +131,36 @@ export function SiteAudioProvider({ active, children }) {
     }
   }, [])
 
-  // One “tap anywhere” offer per session — then only the toggle controls lofi.
+  // One “tap anywhere” per session (click/tap on empty chrome). Retries until play() succeeds.
   useEffect(() => {
     if (!active || gestureUsedRef.current) return undefined
 
-    const events = ['pointerdown', 'touchstart', 'mousedown', 'click', 'keydown']
     const detach = () => {
-      events.forEach((evt) =>
-        document.removeEventListener(evt, onInteract, { capture: true }),
-      )
+      document.removeEventListener('click', onInteract, { capture: true })
+      document.removeEventListener('keydown', onInteract, { capture: true })
     }
 
     const onInteract = (e) => {
-      if (e.target?.closest?.('[data-audio-toggle], [data-nav-menu-toggle], [data-nav-link]')) {
-        return
-      }
       if (gestureUsedRef.current) return
+      if (e.target?.closest?.(GESTURE_SELECTOR)) return
 
       markUnlocked()
-      consumeGestureOffer()
 
-      if (!mutedRef.current) {
-        play().catch(() => {})
+      if (mutedRef.current) {
+        consumeGestureOffer()
+        return
       }
+
+      play()
+        .then(() => consumeGestureOffer())
+        .catch(() => {
+          /* Android may block first attempt — keep listener for next tap */
+        })
     }
 
     detachInteractRef.current = detach
-    events.forEach((evt) =>
-      document.addEventListener(evt, onInteract, { capture: true, passive: true }),
-    )
+    document.addEventListener('click', onInteract, { capture: true })
+    document.addEventListener('keydown', onInteract, { capture: true })
     return detach
   }, [active, markUnlocked, consumeGestureOffer, play])
 

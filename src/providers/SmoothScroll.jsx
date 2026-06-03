@@ -2,21 +2,25 @@ import { useEffect, useRef, createContext, useContext } from 'react'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 import { gsap, ScrollTrigger } from '../lib/gsap'
-import { setLenis, refreshScroll } from '../lib/scroll'
+import { refreshScroll, setLenis, setupScrollDriver } from '../lib/scroll'
 
 const LenisContext = createContext(null)
 export const useLenis = () => useContext(LenisContext)
 
 /**
- * Lenis smooth scroll synced to GSAP ScrollTrigger.
- * Same scroll intensity on all viewports; syncTouch on touch/narrow for pin sync.
+ * Lenis + ScrollTrigger everywhere except Android (native scroll there).
  */
 export default function SmoothScroll({ children }) {
   const lenisRef = useRef(null)
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced) return
+    if (reduced) return undefined
+
+    const teardownNative = setupScrollDriver({ onRefresh: refreshScroll })
+    if (teardownNative) {
+      return teardownNative
+    }
 
     const coarse = window.matchMedia('(pointer: coarse)').matches
     const narrow = window.matchMedia('(max-width: 767px)').matches

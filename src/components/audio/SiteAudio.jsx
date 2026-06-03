@@ -11,9 +11,11 @@ const RIPPLE_DEBOUNCE_MS = 400
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
+  readGestureUsed,
   readMutedPreference,
   NAV_RIPPLE_SRC,
   SITE_AUDIO_SRC,
+  writeGestureUsed,
   writeMutedPreference,
 } from '../../lib/siteAudio'
 
@@ -28,16 +30,25 @@ export function useSiteAudio() {
 /**
  * Background lofi. Native HTMLAudioElement playback (no Web Audio) for maximum
  * cross-device reliability — iOS Safari, Android Chrome, desktop. Starts on the
- * first user interaction anywhere; toggle mutes/plays. Wave is pure CSS.
+ * first tap anywhere (once per session) may start lofi if not muted; toggle only after that.
  */
 export function SiteAudioProvider({ active, children }) {
   const audioRef = useRef(null)
   const rippleRef = useRef(null)
   const mutedRef = useRef(readMutedPreference())
-  const unlockedRef = useRef(false)
+  const gestureUsedRef = useRef(readGestureUsed())
+  const unlockedRef = useRef(gestureUsedRef.current)
   const detachInteractRef = useRef(() => {})
 
-  const [unlocked, setUnlocked] = useState(false)
+  const consumeGestureOffer = useCallback(() => {
+    gestureUsedRef.current = true
+    writeGestureUsed()
+    unlockedRef.current = true
+    setUnlocked(true)
+    detachInteractRef.current()
+  }, [])
+
+  const [unlocked, setUnlocked] = useState(() => gestureUsedRef.current)
   const [muted, setMuted] = useState(() => readMutedPreference())
   const [playing, setPlaying] = useState(false)
 
@@ -119,10 +130,9 @@ export function SiteAudioProvider({ active, children }) {
     }
   }, [])
 
-  // First interaction anywhere on the site → start playing. Retries on each
-  // gesture until the browser actually allows playback, then detaches.
+  // One “tap anywhere” offer per session — then only the toggle controls lofi.
   useEffect(() => {
-    if (!active) return undefined
+    if (!active || gestureUsedRef.current) return undefined
 
     const events = ['pointerdown', 'touchstart', 'mousedown', 'click', 'keydown']
     const detach = () => {
@@ -132,26 +142,17 @@ export function SiteAudioProvider({ active, children }) {
     }
 
     const onInteract = (e) => {
-      if (e.target?.closest?.('[data-audio-toggle]')) {
-        detach()
+      if (e.target?.closest?.('[data-audio-toggle], [data-nav-menu-toggle], [data-nav-link]')) {
         return
       }
-      // Menu chrome must not unlock / start background audio (capture runs before onClick).
-      if (e.target?.closest?.('[data-nav-menu-toggle]')) return
-      // Nav uses ripple SFX only — never start or restart lofi from nav clicks.
-      if (e.target?.closest?.('[data-nav-link]')) return
-      if (unlockedRef.current && !mutedRef.current) {
-        const audio = audioRef.current
-        if (audio && !audio.paused) return
-      }
+      if (gestureUsedRef.current) return
 
       markUnlocked()
-      syncMuted(false)
-      play()
-        .then(detach)
-        .catch(() => {
-          /* playback blocked — keep listening for the next gesture */
-        })
+      consumeGestureOffer()
+
+      if (!mutedRef.current) {
+        play().catch(() => {})
+      }
     }
 
     detachInteractRef.current = detach
@@ -159,7 +160,7 @@ export function SiteAudioProvider({ active, children }) {
       document.addEventListener(evt, onInteract, { capture: true, passive: true }),
     )
     return detach
-  }, [active, markUnlocked, syncMuted, play])
+  }, [active, markUnlocked, consumeGestureOffer, play])
 
   // Pause in background tabs; resume when visible (if not muted).
   useEffect(() => {

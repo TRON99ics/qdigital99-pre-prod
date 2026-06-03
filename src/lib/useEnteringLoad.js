@@ -4,7 +4,7 @@ import { refreshScroll } from './scroll'
 
 const MIN_FIRST_MS = 900
 const MIN_ROUTE_MS = 550
-const HOLD_AT_99_MS = 180
+const HOLD_AT_99_MS = 320
 
 function waitWindowLoad() {
   if (document.readyState === 'complete') return Promise.resolve()
@@ -60,11 +60,11 @@ export function useEnteringLoad(pathname) {
 
     const publish = (done = false) => {
       if (cancelled) return
-      let p = Object.keys(weights).reduce((sum, k) => sum + gates[k] * weights[k], 0)
-      if (!done) p = Math.min(p, 0.9)
-      else p = 1
+      const p = done
+        ? 1
+        : Object.keys(weights).reduce((sum, k) => sum + gates[k] * weights[k], 0)
       setProgress(p)
-      setDisplay(Math.min(99, Math.floor(p * 99)))
+      setDisplay(Math.min(99, Math.round(p * 99)))
     }
 
     const minStart = performance.now()

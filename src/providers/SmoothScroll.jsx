@@ -9,7 +9,7 @@ export const useLenis = () => useContext(LenisContext)
 
 /**
  * Lenis smooth scroll synced to GSAP ScrollTrigger.
- * Touch / narrow viewports use lower multipliers so scroll feels controlled.
+ * Same scroll intensity on all viewports; syncTouch on touch/narrow for pin sync.
  */
 export default function SmoothScroll({ children }) {
   const lenisRef = useRef(null)
@@ -20,18 +20,18 @@ export default function SmoothScroll({ children }) {
 
     const coarse = window.matchMedia('(pointer: coarse)').matches
     const narrow = window.matchMedia('(max-width: 767px)').matches
-    const touchLike = coarse || narrow
+    const syncTouch = coarse || narrow
 
     const lenis = new Lenis({
-      lerp: touchLike ? 0.055 : 0.1,
-      duration: touchLike ? 1.5 : 1.1,
+      lerp: 0.1,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      syncTouch: touchLike,
-      syncTouchLerp: 0.05,
-      touchInertiaExponent: touchLike ? 1.25 : 1.7,
-      touchMultiplier: touchLike ? 0.42 : 1.5,
-      wheelMultiplier: touchLike ? 0.85 : 1,
+      syncTouch,
+      syncTouchLerp: 0.075,
+      touchInertiaExponent: 1.7,
+      touchMultiplier: 1.5,
+      wheelMultiplier: 1,
       autoRaf: false,
     })
     lenisRef.current = lenis

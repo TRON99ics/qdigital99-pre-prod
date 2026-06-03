@@ -136,6 +136,8 @@ export function SiteAudioProvider({ active, children }) {
         detach()
         return
       }
+      // Menu chrome must not unlock / start background audio (capture runs before onClick).
+      if (e.target?.closest?.('[data-nav-menu-toggle]')) return
       // Nav uses ripple SFX only — never start or restart lofi from nav clicks.
       if (e.target?.closest?.('[data-nav-link]')) return
       if (unlockedRef.current && !mutedRef.current) {
@@ -273,8 +275,8 @@ export function NavAudioToggle({ className = '' }) {
       className={`audio-toggle relative z-10 flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors md:h-11 md:w-11 ${className}`}
     >
       <span
-        className={`audio-toggle-ring pointer-events-none absolute inset-0 rounded-full border ${
-          live ? 'border-white/50 bg-white/10' : 'border-white/15 bg-white/5'
+        className={`audio-toggle-ring pointer-events-none absolute inset-0 rounded-full ${
+          live ? 'bg-white/10' : 'bg-white/5'
         }`}
         aria-hidden
       />

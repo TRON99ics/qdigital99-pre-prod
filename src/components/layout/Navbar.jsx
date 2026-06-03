@@ -95,30 +95,34 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="relative z-10 flex items-center gap-2 md:gap-3">
-            <NavAudioToggle />
+          <div className="relative z-10 ml-auto flex shrink-0 items-center gap-2 md:ml-0 md:gap-3">
+            <NavAudioToggle className="shrink-0" />
             <div className="hidden md:block">
               <Button to="/contact" variant="primary" size="md">
                 Start a project
               </Button>
             </div>
+            <button
+              type="button"
+              data-nav-menu-toggle
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation()
+                setOpen((v) => !v)
+              }}
+              className="relative flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 text-white md:hidden"
+            >
+              <span
+                className={`h-0.5 w-6 bg-current transition-transform duration-300 ${open ? 'translate-y-2 rotate-45' : ''}`}
+              />
+              <span className={`h-0.5 w-6 bg-current transition-opacity ${open ? 'opacity-0' : ''}`} />
+              <span
+                className={`h-0.5 w-6 bg-current transition-transform duration-300 ${open ? '-translate-y-2 -rotate-45' : ''}`}
+              />
+            </button>
           </div>
-
-          <button
-            type="button"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="relative z-10 flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 text-white md:hidden"
-          >
-            <span
-              className={`h-0.5 w-6 bg-current transition-transform duration-300 ${open ? 'translate-y-2 rotate-45' : ''}`}
-            />
-            <span className={`h-0.5 w-6 bg-current transition-opacity ${open ? 'opacity-0' : ''}`} />
-            <span
-              className={`h-0.5 w-6 bg-current transition-transform duration-300 ${open ? '-translate-y-2 -rotate-45' : ''}`}
-            />
-          </button>
         </div>
       </nav>
 

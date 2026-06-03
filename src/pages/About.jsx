@@ -6,6 +6,7 @@ import ParallaxImage from '../components/motion/ParallaxImage'
 import Button from '../components/ui/Button'
 import { useSeo } from '../lib/useSeo'
 import { values, team, differentiators } from '../data/content'
+import { images } from '../data/images'
 import { site } from '../data/site'
 
 export default function About() {
@@ -61,13 +62,13 @@ export default function About() {
         <Container>
           <div className="grid gap-3 md:grid-cols-12 md:gap-6">
             <ParallaxImage
-              src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80"
-              alt="Strategy workshop"
+              src={images.strategyPlanning}
+              alt="Strategy and systems planning"
               className="aspect-[4/5] md:col-span-5"
             />
             <ParallaxImage
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80"
-              alt="Creative team at work"
+              src={images.teamCollaboration}
+              alt="Team collaborating on a project"
               className="aspect-[4/3] md:col-span-7 md:mt-24"
             />
           </div>

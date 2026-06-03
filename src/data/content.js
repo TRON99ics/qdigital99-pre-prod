@@ -1,3 +1,5 @@
+import { images } from './images'
+
 // Metrics, process, testimonials, insights — shared content.
 
 export const metrics = [
@@ -85,8 +87,7 @@ export const insights = [
       'Server-side tracking, modeled conversions, and the metrics that still tie to revenue.',
     readingTime: '6 min',
     date: '2026-05-18',
-    image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80',
+    image: images.analyticsDashboard,
   },
   {
     id: 'creative-velocity',
@@ -96,8 +97,7 @@ export const insights = [
       'Why the volume and quality of creative now decides paid performance more than audiences.',
     readingTime: '5 min',
     date: '2026-04-22',
-    image:
-      'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80',
+    image: images.businessReview,
   },
   {
     id: 'seo-ai-search',
@@ -107,8 +107,7 @@ export const insights = [
       'Structured content, entity clarity, and how organic strategy adapts to answer engines.',
     readingTime: '7 min',
     date: '2026-03-30',
-    image:
-      'https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?auto=format&fit=crop&w=1600&q=80',
+    image: images.aiAssist,
   },
   {
     id: 'lifecycle-revenue',
@@ -118,8 +117,7 @@ export const insights = [
       'A simple model for why lifetime value, not CAC, should set your acquisition ceiling.',
     readingTime: '4 min',
     date: '2026-02-11',
-    image:
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80',
+    image: images.familyCare,
   },
 ]
 

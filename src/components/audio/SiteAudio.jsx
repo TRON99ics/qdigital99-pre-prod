@@ -105,7 +105,7 @@ export function SiteAudioProvider({ active, children }) {
 
     audio.volume = 0.42
     audio.muted = mutedRef.current
-    if (ripple) ripple.volume = 0.55
+    if (ripple) ripple.volume = 0.32
 
     const onPlay = () => setPlaying(!audio.muted)
     const onPause = () => setPlaying(false)

@@ -1,3 +1,5 @@
+import { images } from './images'
+
 // Proof points. Real growth stories, compressed to the result.
 export const caseStudies = [
   {
@@ -13,8 +15,7 @@ export const caseStudies = [
       { value: 40, suffix: '%', label: 'Reduction in CPL' },
     ],
     accent: '#1347FF',
-    image:
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=80',
+    image: images.healthcareMeeting,
   },
   {
     id: 'real-estate-leads',
@@ -29,8 +30,7 @@ export const caseStudies = [
       { value: 30, suffix: '%', label: 'Reduction in CPL' },
     ],
     accent: '#000000',
-    image:
-      'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80',
+    image: images.realEstate,
   },
   {
     id: 'ecommerce-revenue',
@@ -45,8 +45,7 @@ export const caseStudies = [
       { value: 35, suffix: '%', label: 'Repeat purchases' },
     ],
     accent: '#1347FF',
-    image:
-      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80',
+    image: images.revenues,
   },
   {
     id: 'education-enrollment',
@@ -61,7 +60,6 @@ export const caseStudies = [
       { value: 45, suffix: '%', label: 'Enrollment increase' },
     ],
     accent: '#000000',
-    image:
-      'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80',
+    image: images.creativeTeam,
   },
 ]

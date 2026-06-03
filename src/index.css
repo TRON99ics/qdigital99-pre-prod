@@ -289,7 +289,8 @@
   /* Live — juicy bouncing equalizer, each bar desynced */
   .audio-wave--live .audio-wave-bar {
     animation: audio-eq 0.85s ease-in-out infinite alternate;
-    box-shadow: 0 0 8px rgba(19, 71, 255, 0.55);
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.95));
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   }
 
   .audio-wave--live .audio-wave-bar:nth-child(1) { animation-duration: 0.62s; animation-delay: -0.20s; }

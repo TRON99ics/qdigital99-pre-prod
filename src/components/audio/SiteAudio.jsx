@@ -266,15 +266,15 @@ export function NavAudioToggle({ className = '' }) {
       whileTap={{ scale: 0.9 }}
       animate={{
         boxShadow: live
-          ? '0 0 18px rgba(19, 71, 255, 0.5), 0 0 38px rgba(19, 71, 255, 0.18)'
-          : '0 0 0 rgba(19, 71, 255, 0)',
+          ? '0 0 18px rgba(255, 255, 255, 0.45), 0 0 38px rgba(255, 255, 255, 0.2)'
+          : '0 0 0 rgba(255, 255, 255, 0)',
       }}
       transition={{ duration: 0.35 }}
       className={`audio-toggle relative z-10 flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors md:h-11 md:w-11 ${className}`}
     >
       <span
         className={`audio-toggle-ring pointer-events-none absolute inset-0 rounded-full border ${
-          live ? 'border-blue/50 bg-blue/10' : 'border-white/15 bg-white/5'
+          live ? 'border-white/50 bg-white/10' : 'border-white/15 bg-white/5'
         }`}
         aria-hidden
       />

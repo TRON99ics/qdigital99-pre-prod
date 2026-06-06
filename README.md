@@ -16,32 +16,32 @@ QDigital99 helps brands grow through full-funnel digital marketing: SEO, paid me
 
 ### Site features
 
-| Area | Description |
-|------|-------------|
-| **Home** | Pinned 3D hero (Moon Man GLB), metrics, capabilities, horizontal featured work, process, testimonials, CTA |
-| **Pages** | About, Services, Case Studies, Industries, Insights, Contact |
-| **Motion** | GSAP ScrollTrigger + Lenis smooth scroll; section pins and reveals |
-| **Loader** | Route entering screen with odometer (000–099), progress bar, wipe exit |
-| **Audio** | Background lofi (`chiled-lofi.mp3`), nav ripple SFX (`ripple.mp3`), navbar toggle |
-| **UI** | Chromatic ripple on fast pointer movement (desktop); responsive navbar with mobile menu |
-| **Content** | Data-driven copy in `src/data/` (easy to edit without touching layout) |
-| **SEO** | Per-route metadata via `useSeo` |
+| Area        | Description                                                                                                |
+| ----------- | ---------------------------------------------------------------------------------------------------------- |
+| **Home**    | Pinned 3D hero (Moon Man GLB), metrics, capabilities, horizontal featured work, process, testimonials, CTA |
+| **Pages**   | About, Services, Case Studies, Industries, Insights, Contact                                               |
+| **Motion**  | GSAP ScrollTrigger + Lenis smooth scroll; section pins and reveals                                         |
+| **Loader**  | Route entering screen with odometer (000–099), progress bar, wipe exit                                     |
+| **Audio**   | Background lofi (`chiled-lofi.mp3`), nav ripple SFX (`ripple.mp3`), navbar toggle                          |
+| **UI**      | Chromatic ripple on fast pointer movement (desktop); responsive navbar with mobile menu                    |
+| **Content** | Data-driven copy in `src/data/` (easy to edit without touching layout)                                     |
+| **SEO**     | Per-route metadata via `useSeo`                                                                            |
 
 ---
 
 ## Tech stack
 
-| Layer | Technology |
-|-------|------------|
-| **Runtime** | React 19 |
-| **Build** | Vite 8 |
-| **Routing** | React Router 7 (lazy-loaded routes) |
-| **Styling** | Tailwind CSS v4 (`@tailwindcss/vite`) |
+| Layer          | Technology                                    |
+| -------------- | --------------------------------------------- |
+| **Runtime**    | React 19                                      |
+| **Build**      | Vite 8                                        |
+| **Routing**    | React Router 7 (lazy-loaded routes)           |
+| **Styling**    | Tailwind CSS v4 (`@tailwindcss/vite`)         |
 | **Typography** | Inter variable (`@fontsource-variable/inter`) |
-| **3D** | Three.js, React Three Fiber, Drei |
-| **Animation** | GSAP 3 + ScrollTrigger, Framer Motion |
-| **Scroll** | Lenis (synced with ScrollTrigger) |
-| **Language** | JavaScript (JSX) — no TypeScript in app code |
+| **3D**         | Three.js, React Three Fiber, Drei             |
+| **Animation**  | GSAP 3 + ScrollTrigger, Framer Motion         |
+| **Scroll**     | Lenis (synced with ScrollTrigger)             |
+| **Language**   | JavaScript (JSX) — no TypeScript in app code  |
 
 ### Notable integrations
 
@@ -103,12 +103,12 @@ npm install
 
 Ensure these exist before running the hero or loader:
 
-| Path | Purpose |
-|------|---------|
-| `public/models/moon_man_yo_oc_humanoid.glb` | 3D hero character |
-| `public/audio/chiled-lofi.mp3` | Background music |
-| `public/audio/ripple.mp3` | Nav transition sound |
-| `public/images/*.jpg` | Page and card imagery |
+| Path                                        | Purpose               |
+| ------------------------------------------- | --------------------- |
+| `public/models/moon_man_yo_oc_humanoid.glb` | 3D hero character     |
+| `public/audio/chiled-lofi.mp3`              | Background music      |
+| `public/audio/ripple.mp3`                   | Nav transition sound  |
+| `public/images/*.jpg`                       | Page and card imagery |
 
 If the GLB is missing, the app still runs but the hero preload step may delay or fail until the file is present.
 
@@ -137,12 +137,12 @@ npm run lint
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start Vite dev server with HMR |
-| `npm run build` | Production build to `dist/` |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
+| Command           | Description                    |
+| ----------------- | ------------------------------ |
+| `npm run dev`     | Start Vite dev server with HMR |
+| `npm run build`   | Production build to `dist/`    |
+| `npm run preview` | Preview production build       |
+| `npm run lint`    | Run ESLint                     |
 
 ---
 
@@ -164,9 +164,9 @@ Build static assets with `npm run build` and deploy the `dist/` folder to any st
 
 ## Contact (site)
 
-- **Email:** team.qdigital99@gmail.com  
-- **US:** +1 (774) 535-3918  
-- **AU:** +61 405 122 110  
+- **Email:** admin@qdigital99.com
+  <!-- - **US:** +1 (774) 535-3918 -->
+  <!-- - **AU:** +61 405 122 110 -->
 
 ---
 

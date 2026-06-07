@@ -39,7 +39,7 @@ export const footerNav = {
   ],
   Services: [
     { label: "SEO & Organic", to: "/services" },
-    { label: "Paid Media", to: "/services" },
+    { label: 'Digital Growth', to: '/services' },
     { label: "CRM & Automation", to: "/services" },
     { label: "Web & CRO", to: "/services" },
   ],

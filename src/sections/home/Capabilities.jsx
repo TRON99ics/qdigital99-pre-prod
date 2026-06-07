@@ -46,7 +46,7 @@ export default function Capabilities() {
 
           <div className="flex flex-col justify-between bg-surface p-9 md:p-12">
             <div>
-              <div className="eyebrow text-blue">{capabilities[active].price}</div>
+              <div className="eyebrow text-blue">{capabilities[active].tag}</div>
               <p className="mt-6 text-2xl font-medium leading-snug tracking-tight text-ink md:text-3xl">
                 {capabilities[active].summary}
               </p>

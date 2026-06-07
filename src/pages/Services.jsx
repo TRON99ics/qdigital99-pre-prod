@@ -34,7 +34,7 @@ export default function Services() {
                 <div>
                   <div className="flex items-center gap-4">
                     <span className="text-sm tabular-nums text-ink-muted">{c.index}</span>
-                    <span className="eyebrow text-blue">{c.price}</span>
+                    <span className="eyebrow text-blue">{c.tag}</span>
                   </div>
                   <h2 className="mt-5 text-4xl font-medium tracking-tight text-ink md:text-5xl">
                     {c.title}

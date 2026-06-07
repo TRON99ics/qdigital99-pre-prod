@@ -3,7 +3,7 @@ import SplitText from '../../components/motion/SplitText'
 import Button from '../../components/ui/Button'
 import Marquee from '../../components/ui/Marquee'
 
-const words = ['SEO', 'Paid Media', 'Performance', 'Social', 'Content', 'Brand', 'Web', 'CRO']
+const words = ['SEO', 'Digital Growth', 'Performance', 'Social', 'Content', 'Brand', 'Web', 'CRO']
 
 /**
  * SECTION 08 — Closing CTA. Large typography.

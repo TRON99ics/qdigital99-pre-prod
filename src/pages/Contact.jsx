@@ -8,7 +8,7 @@ import { site } from '../data/site'
 
 const services = [
   'SEO & Organic Growth',
-  'Paid Media',
+  'Digital Growth',
   'Performance Marketing',
   'CRM & Automation',
   'Web & Conversion',

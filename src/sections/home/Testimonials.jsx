@@ -18,10 +18,18 @@ export default function Testimonials() {
               <p className="text-xl font-medium leading-snug tracking-tight text-ink md:text-2xl">
                 “{t.quote}”
               </p>
-              <div className="mt-8 flex items-center gap-3 text-sm">
-                <span className="h-1.5 w-1.5 rounded-full bg-blue" />
-                <span className="text-ink-soft">{t.author}</span>
-                <span className="text-ink-muted">· {t.company}</span>
+              <div className="mt-8 flex items-start gap-3">
+                <span
+                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue lg:mt-2"
+                  aria-hidden
+                />
+                <div className="min-w-0 flex flex-col gap-1 lg:flex-row lg:flex-wrap lg:items-baseline lg:gap-x-2 lg:gap-y-0">
+                  <span className="text-sm font-medium leading-snug text-ink-soft">{t.author}</span>
+                  <span className="hidden text-sm text-ink-muted lg:inline" aria-hidden>
+                    ·
+                  </span>
+                  <span className="text-sm leading-snug text-ink-muted">{t.company}</span>
+                </div>
               </div>
             </Reveal>
           ))}

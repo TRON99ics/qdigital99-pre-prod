@@ -7,14 +7,27 @@ import { getSiteHeaderPx } from '../../lib/layout'
 import { isAndroidDevice, refreshScroll } from '../../lib/scroll'
 import { caseStudies } from '../../data/caseStudies'
 
-function bindImageRefresh(row) {
+function scrollMetrics(row) {
+  const scrollDistance = Math.max(0, row.scrollWidth - window.innerWidth)
+  const endPadding = window.innerWidth < 768 ? 0.32 : 0.45
+  const runwayHeight = scrollDistance + window.innerHeight * endPadding
+  return { scrollDistance, runwayHeight }
+}
+
+function bindImageRefresh(row, onReady) {
   row.querySelectorAll('img').forEach((img) => {
-    if (img.complete) return
+    if (img.complete) {
+      onReady?.()
+      return
+    }
     img.addEventListener(
       'load',
       () => {
-        ScrollTrigger.refresh()
-        refreshScroll()
+        onReady?.()
+        if (!isAndroidDevice()) {
+          ScrollTrigger.refresh()
+          refreshScroll()
+        }
       },
       { once: true },
     )
@@ -22,12 +35,65 @@ function bindImageRefresh(row) {
 }
 
 /**
+ * Android: sticky stage + scroll runway (same model as hero).
+ * Section must NOT use overflow-hidden — that breaks position:sticky on Chrome.
+ */
+function bindAndroidFeaturedScroll(wrap, row, runway) {
+  const layout = () => {
+    const track = row.current
+    const runwayEl = runway.current
+    if (!track || !runwayEl) return { scrollDistance: 0, scrollable: 1 }
+
+    const { scrollDistance, runwayHeight } = scrollMetrics(track)
+    runwayEl.style.height = `${runwayHeight}px`
+
+    const root = wrap.current
+    const scrollable = root ? Math.max(1, root.offsetHeight - window.innerHeight) : 1
+    return { scrollDistance, scrollable }
+  }
+
+  const apply = () => {
+    const root = wrap.current
+    const track = row.current
+    if (!root || !track) return
+
+    const { scrollDistance, scrollable } = layout()
+    const top = root.getBoundingClientRect().top
+    const p = Math.min(1, Math.max(0, -top / scrollable))
+
+    gsap.set(track, { x: -scrollDistance * p, force3D: true })
+  }
+
+  layout()
+  apply()
+  window.addEventListener('scroll', apply, { passive: true })
+  window.addEventListener('resize', apply)
+  const t1 = setTimeout(apply, 100)
+  const t2 = setTimeout(() => {
+    apply()
+    refreshScroll()
+  }, 400)
+
+  const teardown = () => {
+    clearTimeout(t1)
+    clearTimeout(t2)
+    window.removeEventListener('scroll', apply)
+    window.removeEventListener('resize', apply)
+    gsap.set(row.current, { clearProps: 'transform' })
+  }
+
+  return { apply, teardown }
+}
+
+/**
  * SECTION 06 — Featured work. Vertical scroll drives horizontal card travel (all breakpoints).
  */
 export default function FeaturedWork() {
+  const android = isAndroidDevice()
   const wrap = useRef(null)
   const pin = useRef(null)
   const track = useRef(null)
+  const runway = useRef(null)
 
   useLayoutEffect(() => {
     const el = wrap.current
@@ -37,10 +103,15 @@ export default function FeaturedWork() {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) return
 
+    if (android) {
+      const { apply, teardown } = bindAndroidFeaturedScroll(wrap, track, runway)
+      bindImageRefresh(row, apply)
+      return teardown
+    }
+
     const ctx = gsap.context(() => {
       const scrollDistance = () => Math.max(0, row.scrollWidth - window.innerWidth)
       const endPadding = () => (window.innerWidth < 768 ? 0.32 : 0.45)
-      const scrub = isAndroidDevice() ? 0.4 : 0.85
 
       gsap.to(row, {
         x: () => -scrollDistance(),
@@ -51,7 +122,7 @@ export default function FeaturedWork() {
           end: () => `+=${scrollDistance() + window.innerHeight * endPadding()}`,
           pin: pinEl,
           pinType: 'transform',
-          scrub,
+          scrub: 0.85,
           invalidateOnRefresh: true,
           anticipatePin: 1,
         },
@@ -61,14 +132,19 @@ export default function FeaturedWork() {
     }, el)
 
     return () => ctx.revert()
-  }, [])
+  }, [android])
+
+  const wrapClass = android
+    ? 'relative z-10 bg-paper'
+    : 'relative isolate z-10 overflow-hidden bg-paper'
+
+  const stageClass = android
+    ? 'featured-work-android-stage top-[var(--site-header)] z-10 grid h-[calc(100svh-var(--site-header))] grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden bg-paper pb-5 pt-4 md:gap-6 md:pb-8 md:pt-5'
+    : 'grid h-[calc(100svh-var(--site-header))] grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden bg-paper pb-5 pt-4 md:gap-6 md:pb-8 md:pt-5'
 
   return (
-    <section ref={wrap} className="relative isolate z-10 overflow-hidden bg-paper">
-      <div
-        ref={pin}
-        className="grid h-[calc(100svh-var(--site-header))] grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden bg-paper pb-5 pt-4 md:gap-6 md:pb-8 md:pt-5"
-      >
+    <section ref={wrap} className={wrapClass}>
+      <div ref={pin} className={stageClass}>
         <div className="w-full min-w-0 shrink-0">
           <Container>
             <SectionHeading eyebrow="Featured work" title="Proof, not promises." />
@@ -78,7 +154,7 @@ export default function FeaturedWork() {
         <div className="featured-work-stage min-h-0 overflow-hidden bg-paper md:px-10 lg:px-14">
           <div
             ref={track}
-            className="flex h-full w-max flex-row items-stretch gap-5 pl-6 md:gap-10 md:pl-0"
+            className="flex h-full w-max flex-row items-stretch gap-5 pl-6 will-change-transform md:gap-10 md:pl-0"
           >
             {caseStudies.map((cs) => (
               <Link
@@ -116,6 +192,10 @@ export default function FeaturedWork() {
           </div>
         </div>
       </div>
+
+      {android && (
+        <div ref={runway} className="pointer-events-none shrink-0" aria-hidden />
+      )}
     </section>
   )
 }

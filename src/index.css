@@ -172,9 +172,17 @@
     }
   }
 
-  /* Featured work — GSAP horizontal pin stage (overflow hidden at all breakpoints) */
+  /* Featured work — horizontal track stage */
   .featured-work-stage {
     overflow: hidden;
+    touch-action: pan-y;
+  }
+
+  /* Android: explicit sticky for Chrome (parent section must not clip overflow) */
+  .featured-work-android-stage {
+    position: -webkit-sticky;
+    position: sticky;
+    transform: translateZ(0);
   }
 
   @media (min-width: 768px) {

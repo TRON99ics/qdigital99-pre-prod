@@ -35,27 +35,27 @@ export const process = [
 export const testimonials = [
   {
     quote:
-      'They run like an extension of our team. The reporting is honest, and the revenue followed.',
-    author: 'VP Marketing',
-    company: 'D2C Lifestyle Brand',
-  },
-  {
-    quote:
-      'We finally stopped guessing. Every channel ties back to pipeline we can actually measure.',
-    author: 'Founder',
-    company: 'B2B SaaS',
-  },
-  {
-    quote:
-      'Lead quality changed overnight. Same budget, far better customers.',
+      'QDigital helped us attract more qualified enquiries and strengthen our online presence. Their approach is strategic, transparent, and focused on long-term growth.',
     author: 'Director',
-    company: 'Coastal Property Co.',
+    company: 'Construction Industry, India',
   },
   {
     quote:
-      'A growth partner, not a vendor. They think about our business, not just their dashboard.',
-    author: 'CMO',
-    company: 'Regional Health Group',
+      'From strategy to execution, every campaign was aligned with our business goals. We saw better quality leads, stronger engagement, and measurable growth.',
+    author: 'Founder',
+    company: 'Lifestyle & Wellness Brand, USA',
+  },
+  {
+    quote:
+      'Our visibility in local search improved significantly, resulting in a steady increase in patient enquiries and bookings. The team delivers results while keeping the process simple and professional.',
+    author: 'Principal Dentist',
+    company: 'Dental Practice, Australia',
+  },
+  {
+    quote:
+      'Professional, proactive, and highly results-driven. Their marketing strategies helped us improve lead quality and attract the right customers consistently.',
+    author: 'Principal Dentist',
+    company: 'Dental Practice, Australia',
   },
 ]
 

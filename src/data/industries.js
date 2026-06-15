@@ -42,3 +42,31 @@ export const industries = [
     note: 'Authority content, search, and conversion-focused journeys.',
   },
 ]
+
+export const industryExpertise = {
+  eyebrow: 'Why it matters',
+  title: 'Why Industry Expertise Matters',
+  paragraphs: [
+    'Every industry operates differently.',
+    'Customer behavior, buying decisions, competition, and sales cycles vary from one market to another.',
+    'Our approach is built around industry-specific insights, ensuring every strategy aligns with how your customers search, evaluate, and make purchasing decisions.',
+  ],
+  pillars: [
+    {
+      title: 'Customer Behavior',
+      body: 'Understanding how your audience researches, compares, and purchases.',
+    },
+    {
+      title: 'Market Positioning',
+      body: 'Creating a clear competitive advantage within your industry.',
+    },
+    {
+      title: 'Conversion Strategy',
+      body: 'Building customer journeys that turn interest into action.',
+    },
+    {
+      title: 'Growth Systems',
+      body: 'Connecting marketing, automation, and analytics into one scalable framework.',
+    },
+  ],
+}

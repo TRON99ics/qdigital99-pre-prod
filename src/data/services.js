@@ -9,7 +9,7 @@ export const capabilities = [
     detail:
       'Technical audits, on-page and off-page work, local and international SEO, and Core Web Vitals — built to rank where buyers search and stay there.',
     points: [
-      'Technical audits',
+      'AEO/GEO',
       'Keyword & content',
       'Authority links',
       'Local & international',
@@ -107,43 +107,32 @@ export const capabilities = [
   },
 ]
 
-export const packages = [
-  {
-    name: 'Starter',
-    price: '$999',
-    period: 'per month',
-    features: [
-      '3 services of your choice',
-      'Monthly strategy report',
-      'Dedicated account manager',
-      'Email & chat support',
-    ],
-    featured: false,
-  },
-  {
-    name: 'Growth',
-    price: '$1,999',
-    period: 'per month',
-    features: [
-      '5 services of your choice',
-      'Weekly analytics report',
-      'Bi-weekly strategy calls',
-      'Conversion rate optimization',
-      'Priority support',
-    ],
-    featured: true,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: 'tailored to you',
-    features: [
-      'All services included',
-      'Real-time dashboard',
-      'Dedicated full team',
-      'Custom integrations',
-      'SLA guarantee',
-    ],
-    featured: false,
-  },
-]
+export const growthFramework = {
+  eyebrow: 'Our growth framework',
+  title: 'Strategy. Execution. Optimization. Scale.',
+  intro:
+    "We don't believe in disconnected marketing activities. Every initiative is aligned to a structured growth framework designed to drive measurable business outcomes.",
+  steps: [
+    {
+      index: '01',
+      title: 'Research & Intelligence',
+      body: 'We analyze your market, competitors, audience behavior, and growth opportunities to establish a strong strategic foundation.',
+    },
+    {
+      index: '02',
+      title: 'Build & Launch',
+      body: 'We deploy the right combination of SEO, paid media, websites, landing pages, CRM systems, and automation workflows aligned with your business objectives.',
+    },
+    {
+      index: '03',
+      title: 'Optimize & Improve',
+      body: 'Using performance data and user behavior insights, we continuously refine campaigns, funnels, and conversion paths to improve efficiency and results.',
+    },
+    {
+      index: '04',
+      title: 'Scale & Expand',
+      body: 'Once performance benchmarks are achieved, we scale winning strategies, unlock new growth channels, and create systems that support long-term business expansion.',
+    },
+  ],
+  statement: 'A structured process. Data-driven decisions. Sustainable growth.',
+}

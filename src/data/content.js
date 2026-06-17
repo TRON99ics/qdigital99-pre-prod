@@ -1,36 +1,54 @@
 import { images } from './images'
 
-// Metrics, process, testimonials, insights — shared content.
+// Metrics, whyChooseUs, testimonials, insights — shared content.
 
 export const metrics = [
   { value: 312, prefix: '+', suffix: '%', label: 'Avg. revenue growth' },
-  { value: 98, suffix: '%', label: 'Client retention' },
+  { value: 95, suffix: '%+', label: 'Client retention' },
   { value: 4.8, suffix: '×', label: 'Average ROAS' },
   { value: 50, suffix: '+', label: 'Brands partnered' },
 ]
 
-export const process = [
-  {
-    step: '01',
-    title: 'Discover',
-    body: 'We map your market, competitors, and revenue gaps to find the highest-impact opportunities.',
-  },
-  {
-    step: '02',
-    title: 'Strategize',
-    body: 'A custom full-funnel plan across the right channels — built around your goals, not templates.',
-  },
-  {
-    step: '03',
-    title: 'Launch',
-    body: 'We ship fast, instrument everything, and optimize daily against real performance data.',
-  },
-  {
-    step: '04',
-    title: 'Scale',
-    body: 'Transparent reporting and continuous scaling of what works — turning wins into compounding growth.',
-  },
-]
+export const whyChooseUs = {
+  eyebrow: 'Why QDigital99',
+  title: 'Why Businesses Choose QDigital99',
+  intro:
+    'Businesses partner with us because they need measurable growth, transparent execution, and strategies built around real business objectives.',
+  reasons: [
+    {
+      title: '95%+ Client Retention Rate',
+      body: 'We focus on long-term partnerships built on performance, transparency, and consistent delivery.',
+    },
+    {
+      title: 'Data-Driven Decision Making',
+      body: 'Every recommendation is backed by analytics, market insights, and measurable performance indicators.',
+    },
+    {
+      title: 'Weekly Progress Updates',
+      body: 'Stay informed with clear communication, project updates, campaign performance, and next-step action plans.',
+    },
+    {
+      title: 'Monthly Growth Reports',
+      body: 'Comprehensive reports covering traffic, leads, conversions, campaign performance, and growth opportunities.',
+    },
+    {
+      title: 'Multi-Market Expertise',
+      body: 'Strategies tailored for businesses operating in Australia, the United States, and India.',
+    },
+    {
+      title: 'Dedicated Growth Support',
+      body: 'A proactive team focused on helping your business adapt, improve, and scale over time.',
+    },
+    {
+      title: 'Conversion-Focused Execution',
+      body: 'Every campaign, website, and funnel is built to maximize business outcomes—not just traffic.',
+    },
+    {
+      title: 'Long-Term Growth Strategy',
+      body: "We don't focus on short-term spikes. We build systems designed for sustainable and scalable growth.",
+    },
+  ],
+}
 
 export const testimonials = [
   {

@@ -26,7 +26,7 @@ export default function About() {
         meta={[
           { value: `${new Date().getFullYear() - site.founded}+ yrs`, label: 'Operating' },
           { value: '3', label: 'Global markets' },
-          { value: '98%', label: 'Client retention' },
+          { value: '95%+', label: 'Client retention' },
         ]}
       />
 

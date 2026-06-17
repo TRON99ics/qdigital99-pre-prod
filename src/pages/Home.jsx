@@ -3,7 +3,7 @@ import Intro from '../sections/home/Intro'
 import Capabilities from '../sections/home/Capabilities'
 import Results from '../sections/home/Results'
 import IndustriesSection from '../sections/home/IndustriesSection'
-import Process from '../sections/home/Process'
+import WhyChooseUs from '../sections/home/WhyChooseUs'
 import FeaturedWork from '../sections/home/FeaturedWork'
 import Testimonials from '../sections/home/Testimonials'
 import CTA from '../sections/home/CTA'
@@ -24,7 +24,7 @@ export default function Home() {
       <Capabilities />
       <Results />
       <IndustriesSection />
-      <Process />
+      <WhyChooseUs />
       <FeaturedWork />
       <Testimonials />
       <CTA />

@@ -386,3 +386,45 @@ html.lenis body {
 .lenis.lenis-stopped {
   overflow: hidden;
 }
+
+/* Why choose us — pinned panel; intro hides on short viewports to avoid clipping */
+.why-choose-rail-column {
+  align-self: center;
+}
+
+.why-choose-track {
+  align-self: stretch;
+}
+
+.why-choose-panel {
+  animation: why-choose-fade 0.45s var(--ease-out-expo) both;
+}
+
+@keyframes why-choose-fade {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-height: 680px) {
+  .why-choose-intro {
+    display: none;
+  }
+}
+
+@media (max-height: 560px) {
+  .why-choose-rail {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-choose-panel {
+    animation: none;
+  }
+}

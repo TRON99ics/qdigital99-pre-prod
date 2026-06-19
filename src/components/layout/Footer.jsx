@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import Container from '../ui/Container'
 import Button from '../ui/Button'
 import SplitText from '../motion/SplitText'
+import TronzlabsAttribution from '../ui/TronzlabsAttribution'
 import { site, footerNav, modelCredits } from '../../data/site'
 
 export default function Footer() {
@@ -93,6 +94,10 @@ export default function Footer() {
             <div>
               © {new Date().getFullYear()} {site.name}
             </div>
+          </div>
+
+          <div className="flex justify-center border-t border-white/10 pt-6">
+            <TronzlabsAttribution />
           </div>
         </div>
       </Container>

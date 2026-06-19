@@ -12,6 +12,11 @@ export const site = {
   url: "https://qdigital99.com",
 };
 
+export const studioCredit = {
+  label: "Developed and maintained by",
+  url: "https://www.tronzlabs.com",
+};
+
 export const modelCredits = [
   {
     name: "Moon man (yo oc humanoid)",

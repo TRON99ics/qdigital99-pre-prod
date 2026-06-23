@@ -7,11 +7,12 @@ import { getSiteHeaderPx } from '../../lib/layout'
 import { isAndroidDevice, refreshScroll } from '../../lib/scroll'
 import { caseStudies } from '../../data/caseStudies'
 
-function scrollMetrics(row) {
-  const scrollDistance = Math.max(0, row.scrollWidth - window.innerWidth)
+function scrollMetrics(row, stageEl) {
+  const viewport = stageEl?.clientWidth ?? window.innerWidth
+  const scrollDistance = Math.max(0, row.scrollWidth - viewport)
   const endPadding = window.innerWidth < 768 ? 0.32 : 0.45
   const runwayHeight = scrollDistance + window.innerHeight * endPadding
-  return { scrollDistance, runwayHeight }
+  return { scrollDistance, runwayHeight, viewport }
 }
 
 function bindImageRefresh(row, onReady) {
@@ -38,13 +39,14 @@ function bindImageRefresh(row, onReady) {
  * Android: sticky stage + scroll runway (same model as hero).
  * Section must NOT use overflow-hidden — that breaks position:sticky on Chrome.
  */
-function bindAndroidFeaturedScroll(wrap, row, runway) {
+function bindAndroidFeaturedScroll(wrap, row, runway, stage) {
   const layout = () => {
     const track = row.current
     const runwayEl = runway.current
+    const stageEl = stage.current
     if (!track || !runwayEl) return { scrollDistance: 0, scrollable: 1 }
 
-    const { scrollDistance, runwayHeight } = scrollMetrics(track)
+    const { scrollDistance, runwayHeight } = scrollMetrics(track, stageEl)
     runwayEl.style.height = `${runwayHeight}px`
 
     const root = wrap.current
@@ -92,25 +94,30 @@ export default function FeaturedWork() {
   const android = isAndroidDevice()
   const wrap = useRef(null)
   const pin = useRef(null)
+  const stage = useRef(null)
   const track = useRef(null)
   const runway = useRef(null)
 
   useLayoutEffect(() => {
     const el = wrap.current
     const pinEl = pin.current
+    const stageEl = stage.current
     const row = track.current
     if (!el || !pinEl || !row) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduced) return
 
     if (android) {
-      const { apply, teardown } = bindAndroidFeaturedScroll(wrap, track, runway)
+      const { apply, teardown } = bindAndroidFeaturedScroll(wrap, track, runway, stage)
       bindImageRefresh(row, apply)
       return teardown
     }
 
     const ctx = gsap.context(() => {
-      const scrollDistance = () => Math.max(0, row.scrollWidth - window.innerWidth)
+      const scrollDistance = () => {
+        const viewport = stageEl?.clientWidth ?? window.innerWidth
+        return Math.max(0, row.scrollWidth - viewport)
+      }
       const endPadding = () => (window.innerWidth < 768 ? 0.32 : 0.45)
 
       gsap.to(row, {
@@ -151,7 +158,10 @@ export default function FeaturedWork() {
           </Container>
         </div>
 
-        <div className="featured-work-stage min-h-0 overflow-hidden bg-paper md:px-10 lg:px-14">
+        <div
+          ref={stage}
+          className="featured-work-stage min-h-0 overflow-hidden bg-paper md:px-10 lg:px-14"
+        >
           <div
             ref={track}
             className="flex h-full w-max flex-row items-stretch gap-5 pl-6 will-change-transform md:gap-10 md:pl-0"
@@ -189,6 +199,10 @@ export default function FeaturedWork() {
                 </div>
               </Link>
             ))}
+            <div
+              className="featured-work-end-spacer shrink-0 w-10 md:w-14 lg:w-16"
+              aria-hidden
+            />
           </div>
         </div>
       </div>

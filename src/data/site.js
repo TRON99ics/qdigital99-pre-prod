@@ -41,6 +41,7 @@ export const footerNav = {
     { label: "Case Studies", to: "/case-studies" },
     { label: "Insights", to: "/insights" },
     { label: "Contact", to: "/contact" },
+    { label: "Privacy Policy", to: "/privacy" },
   ],
   Services: [
     { label: "SEO & Organic", to: "/services" },

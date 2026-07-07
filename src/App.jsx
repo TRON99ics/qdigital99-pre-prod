@@ -10,6 +10,7 @@ const CaseStudies = lazy(() => import('./pages/CaseStudies'))
 const Industries = lazy(() => import('./pages/Industries'))
 const Insights = lazy(() => import('./pages/Insights'))
 const Contact = lazy(() => import('./pages/Contact'))
+const Privacy = lazy(() => import('./pages/Privacy'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/industries" element={<Industries />} />
           <Route path="/insights" element={<Insights />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

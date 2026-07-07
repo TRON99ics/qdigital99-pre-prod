@@ -91,8 +91,11 @@ export default function Footer() {
                 </span>
               ))}
             </div>
-            <div>
-              © {new Date().getFullYear()} {site.name}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <Link to="/privacy" className="underline-offset-4 hover:text-white/70 hover:underline">
+                Privacy Policy
+              </Link>
+              <span>© {new Date().getFullYear()} {site.name}</span>
             </div>
           </div>
 

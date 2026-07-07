@@ -24,6 +24,7 @@ const LAZY_ROUTES = {
   '/industries': () => import('../pages/Industries'),
   '/insights': () => import('../pages/Insights'),
   '/contact': () => import('../pages/Contact'),
+  '/privacy': () => import('../pages/Privacy'),
 }
 
 function waitRouteChunk(pathname) {

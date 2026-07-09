@@ -13,8 +13,24 @@ export const site = {
 };
 
 export const studioCredit = {
-  label: "Developed and maintained by",
+  label: "Developed by",
   url: "https://www.tronzlabs.com",
+};
+
+export const brand = {
+  logo: "/qdigital99_logo.png",
+  logoAlt: "QDigital99",
+  favicon: "/favicon.ico",
+  faviconPng: "/icons/favicon-32x32.png",
+  appleTouchIcon: "/apple-touch-icon.png",
+  ogImage: "/og-image.png",
+  manifest: "/site.webmanifest",
+};
+
+export const footerBrand = {
+  label: "Marketing Partner",
+  name: "qdigital99",
+  logo: brand.logo,
 };
 
 export const modelCredits = [

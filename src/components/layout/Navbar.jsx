@@ -6,6 +6,7 @@ import { useNavShell } from '../../lib/useNavShell'
 import { syncSiteHeaderVar } from '../../lib/layout'
 import { getLenis } from '../../lib/scroll'
 import Button from '../ui/Button'
+import SiteLogo from '../ui/SiteLogo'
 import { NavAudioToggle, NavRippleLink } from '../audio/SiteAudio'
 
 const shellEase = [0.16, 1, 0.3, 1]
@@ -73,12 +74,10 @@ export default function Navbar() {
 
           <NavRippleLink
             to="/"
-            className="relative z-10 flex min-w-0 items-center gap-2 rounded-full px-2 py-1.5 text-base font-semibold tracking-tight text-white md:text-lg"
+            aria-label={site.name}
+            className="relative z-10 flex min-w-0 items-center rounded-full px-2 py-1.5"
           >
-            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-blue text-sm text-white">
-              Q
-            </span>
-            <span className="truncate">{site.name}</span>
+            <SiteLogo variant="nav" />
           </NavRippleLink>
 
           <div className="relative z-10 hidden items-center gap-0.5 md:flex">

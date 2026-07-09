@@ -329,6 +329,34 @@
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
   }
+
+  /* Logo tile — white surface + primary blue gradient glow */
+  /* Logo marks — colored glow only (no tile) */
+  .brand-logo-tile {
+    background: var(--color-paper);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-blue) 50%, transparent),
+      0 0 8px color-mix(in srgb, var(--color-blue) 62%, transparent),
+      0 0 18px color-mix(in srgb, var(--color-blue) 48%, transparent),
+      0 0 34px color-mix(in srgb, var(--color-blue-soft) 42%, transparent),
+      0 0 52px color-mix(in srgb, var(--color-blue) 26%, transparent);
+  }
+
+  .brand-logo-tile--nav {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-blue) 58%, transparent),
+      0 0 10px color-mix(in srgb, var(--color-blue) 78%, transparent),
+      0 0 24px color-mix(in srgb, var(--color-blue) 58%, transparent),
+      0 0 42px color-mix(in srgb, var(--color-blue-soft) 52%, transparent),
+      0 0 68px color-mix(in srgb, var(--color-blue) 34%, transparent);
+  }
+
+  .studio-logo-glow {
+    filter:
+      drop-shadow(0 0 6px color-mix(in srgb, #ef4444 58%, transparent))
+      drop-shadow(0 0 14px color-mix(in srgb, #f87171 42%, transparent))
+      drop-shadow(0 0 26px color-mix(in srgb, #ef4444 26%, transparent));
+  }
 }
 
 /* Black hole dive — invitation line */

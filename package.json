@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "icons": "bash scripts/generate-icons.sh",
     "lint": "eslint .",
     "preview": "vite preview"
   },

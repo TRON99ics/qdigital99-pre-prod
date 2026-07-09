@@ -82,14 +82,17 @@ function PrivacySection({ section }) {
               </dd>
             </div>
             <div>
-              {/* <dt className="eyebrow mb-1 text-ink-muted">Business Address</dt>
+              <dt className="eyebrow mb-1 text-ink-muted">Business Address</dt>
               <dd className="leading-relaxed">
-                <strong className="font-medium text-ink">United States Location</strong>{' '}
-                <span className="text-ink-soft">(To Be Provided)</span>
+                <strong className="font-medium text-ink">United States Location</strong>
                 <br />
-                <strong className="font-medium text-ink">Australia Location</strong>{' '}
-                <span className="text-ink-soft">(To Be Provided)</span>
-              </dd> */}
+                151 Vernon St, Worcester, MA 01610
+                <br />
+                <br />
+                <strong className="font-medium text-ink">Australia Location</strong>
+                <br />
+                Baldivis, WA 6171
+              </dd>
             </div>
           </dl>
         </div>

@@ -5,10 +5,10 @@ const sizes = {
   footer: 'h-7 w-7',
 }
 
-const tileBase = 'brand-logo-tile inline-flex shrink-0 items-center justify-center rounded-md'
+const tileBase = 'inline-flex shrink-0 items-center justify-center rounded-md bg-paper'
 
 /**
- * Brand mark — white tile with primary blue gradient glow (nav + footer).
+ * Brand mark — nav + footer logo tile.
  */
 export default function SiteLogo({ variant = 'nav', className = '' }) {
   const isNav = variant === 'nav'
@@ -26,7 +26,7 @@ export default function SiteLogo({ variant = 'nav', className = '' }) {
 
   if (isNav) {
     return (
-      <span className={`${tileBase} brand-logo-tile--nav px-1 py-0.5 md:px-1.5 md:py-1`}>
+      <span className={`${tileBase} px-1 py-0.5 md:px-1.5 md:py-1`}>
         {img}
       </span>
     )

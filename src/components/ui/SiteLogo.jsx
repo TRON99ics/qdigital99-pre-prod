@@ -1,8 +1,8 @@
 import { brand } from '../../data/site'
 
 const sizes = {
-  nav: 'h-6 w-auto max-w-[7rem] sm:max-w-[8rem] md:h-7 md:max-w-[8.75rem]',
-  footer: 'h-5 w-5',
+  nav: 'h-8 w-auto max-w-[8rem] sm:max-w-[9rem] md:h-9 md:max-w-[10rem]',
+  footer: 'h-7 w-7',
 }
 
 const tileBase = 'brand-logo-tile inline-flex shrink-0 items-center justify-center rounded-md'
@@ -17,8 +17,8 @@ export default function SiteLogo({ variant = 'nav', className = '' }) {
     <img
       src={brand.logo}
       alt={isNav ? brand.logoAlt : ''}
-      width={isNav ? 140 : 20}
-      height={isNav ? 28 : 20}
+      width={isNav ? 160 : 28}
+      height={isNav ? 36 : 28}
       className={`shrink-0 object-contain object-center ${sizes[variant]} ${className}`}
       aria-hidden={!isNav}
     />
@@ -26,14 +26,14 @@ export default function SiteLogo({ variant = 'nav', className = '' }) {
 
   if (isNav) {
     return (
-      <span className={`${tileBase} brand-logo-tile--nav px-2 py-1.5 md:px-2.5 md:py-2`}>
+      <span className={`${tileBase} brand-logo-tile--nav px-1 py-0.5 md:px-1.5 md:py-1`}>
         {img}
       </span>
     )
   }
 
   return (
-    <span className={`${tileBase} h-8 w-8 p-1`} aria-hidden>
+    <span className={`${tileBase} h-8 w-8 p-0.5`} aria-hidden>
       {img}
     </span>
   )

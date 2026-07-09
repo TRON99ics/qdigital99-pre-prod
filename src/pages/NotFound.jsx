@@ -1,5 +1,6 @@
 import Container from '../components/ui/Container'
 import Button from '../components/ui/Button'
+import SiteLogo from '../components/ui/SiteLogo'
 import { useSeo } from '../lib/useSeo'
 
 export default function NotFound() {
@@ -7,7 +8,8 @@ export default function NotFound() {
   return (
     <section className="flex min-h-[100svh] items-center bg-ink pb-16 pt-[calc(var(--site-header)+2rem)] text-white">
       <Container>
-        <div className="eyebrow text-white/40">404</div>
+        <SiteLogo variant="nav" className="mx-auto sm:mx-0" />
+        <div className="eyebrow mt-8 text-white/40 sm:mt-10">404</div>
         <h1 className="mega mt-6 text-white">Lost the thread.</h1>
         <p className="mt-8 max-w-[40ch] text-xl text-white/55">
           This page doesn't exist — but the work does.

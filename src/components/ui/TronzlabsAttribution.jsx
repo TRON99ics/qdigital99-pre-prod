@@ -1,7 +1,7 @@
 import { studioCredit } from '../../data/site'
 
 /**
- * “Developed and maintained by TronzLabs” — shared footer credit pattern.
+ * “Developed by TronzLabs” — shared footer credit pattern.
  */
 export default function TronzlabsAttribution({ className = '' }) {
   return (
@@ -9,7 +9,7 @@ export default function TronzlabsAttribution({ className = '' }) {
       href={studioCredit.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex max-w-full flex-wrap items-center justify-center gap-2 text-xs transition-opacity hover:opacity-90 ${className}`}
+      className={`inline-flex max-w-full flex-col items-center gap-2 text-center text-xs transition-opacity hover:opacity-90 sm:flex-row sm:items-center sm:gap-2 sm:text-left ${className}`}
     >
       <span className="text-white/45">{studioCredit.label}</span>
       <span className="font-medium whitespace-nowrap">
@@ -22,7 +22,7 @@ export default function TronzlabsAttribution({ className = '' }) {
         alt=""
         width={16}
         height={16}
-        className="h-4 w-4 shrink-0 object-contain"
+        className="studio-logo-glow h-4 w-4 shrink-0 object-contain"
         aria-hidden
       />
     </a>

@@ -4,6 +4,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import ChromaticRipple from '../ui/ChromaticRipple'
 import EnteringLoader from '../loading/EnteringLoader'
+import LeadMagnetHost from '../LeadMagnetHost'
 import { syncSiteHeaderVar } from '../../lib/layout'
 import { useEnteringLoad } from '../../lib/useEnteringLoad'
 import { getLenis, refreshScroll } from '../../lib/scroll'
@@ -14,6 +15,7 @@ export default function Layout() {
   const { pathname } = useLocation()
   const { display, progress, phase, finishExit } = useEnteringLoad(pathname)
   const ready = phase === 'idle'
+  const isHome = pathname === '/'
 
   useEffect(() => {
     preloadRobotModel()
@@ -57,6 +59,7 @@ export default function Layout() {
             </main>
             <Footer />
           </ChromaticRipple>
+          <LeadMagnetHost enabled={ready && isHome} />
         </div>
       </SiteAudioProvider>
     </>

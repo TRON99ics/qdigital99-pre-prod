@@ -37,27 +37,30 @@ export default function Button({
   size = 'md',
   className = '',
   magnetic = true,
+  disabled = false,
 }) {
-  const cls = `${base} ${variants[variant]} ${sizes[size]} ${className}`
+  const cls = `${base} ${variants[variant]} ${sizes[size]} ${
+    disabled ? 'pointer-events-none opacity-60' : ''
+  } ${className}`
   let el
   if (to) {
     el = (
-      <Link to={to} className={cls} onClick={onClick}>
+      <Link to={to} className={cls} onClick={onClick} aria-disabled={disabled}>
         <Inner>{children}</Inner>
       </Link>
     )
   } else if (href) {
     el = (
-      <a href={href} className={cls} onClick={onClick}>
+      <a href={href} className={cls} onClick={onClick} aria-disabled={disabled}>
         <Inner>{children}</Inner>
       </a>
     )
   } else {
     el = (
-      <button type={type} onClick={onClick} className={cls}>
+      <button type={type} onClick={onClick} className={cls} disabled={disabled}>
         <Inner>{children}</Inner>
       </button>
     )
   }
-  return magnetic ? <Magnetic strength={0.3}>{el}</Magnetic> : el
+  return magnetic && !disabled ? <Magnetic strength={0.3}>{el}</Magnetic> : el
 }

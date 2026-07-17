@@ -18,7 +18,7 @@ export const studioCredit = {
 };
 
 export const brand = {
-  logo: "/qdigital99_logo.png",
+  logo: "/icons/qdigblack.png",
   logoAlt: "QDigital99",
   favicon: "/favicon.ico",
   faviconPng: "/icons/favicon-32x32.png",
